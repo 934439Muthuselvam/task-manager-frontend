@@ -1,20 +1,27 @@
-import React from 'react'
-import Button from './Button'
-import BoardView from './BoardView';
+import React from "react";
+import Button from "./Button";
+import BoardView from "./BoardView";
+import { FaPlus } from "react-icons/fa";
 export default function Tasks() {
-    // console.log(tasks)
+  
+  // console.log(tasks)
   return (
-    <div className='w-full'>
-      <div className='flex items-center justify-between mb-4'>
-        <div>Tasks</div>
+    <div className="w-full">
+      <div className="flex items-center justify-between mb-4">
+        <div className="font-bold text-xl">Tasks</div>
 
         {/* {!status && ( */}
-          <Button
-            // onClick={() => setOpen(true)}
-            label='Create Task'
-            icon={<div>a\f</div>}
-            className='flex flex-row-reverse gap-1 items-center bg-blue-600 text-white rounded-md py-2 2xl:py-2.5'
-          />
+        <Button
+          // onClick={() => setOpen(true)}
+          label="Create Task"
+          icon={
+            <div>
+              <FaPlus />
+            </div>
+          }
+          className="flex flex-row-reverse gap-1 items-center bg-blue-600 text-white rounded-md py-2 2xl:py-2.5"
+        />
+        
         {/* )} */}
       </div>
 
@@ -30,9 +37,9 @@ export default function Tasks() {
           </div>
         )} */}
 
-        {/* {selected !== 1 ? ( */}
-          <BoardView />
-        {/* ) : (
+      {/* {selected !== 1 ? ( */}
+      <BoardView />
+      {/* ) : (
           <div className='w-full'>
             <Table tasks={tasks} />
           </div>
@@ -41,5 +48,5 @@ export default function Tasks() {
 
       {/* <AddTask open={open} setOpen={setOpen} /> */}
     </div>
-  )
+  );
 }
