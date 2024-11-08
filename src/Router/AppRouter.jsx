@@ -8,6 +8,7 @@ import Signin from '../components/User/Signin'
 import Signup from '../components/User/Signup'
 import Sidebar from '../components/Sidebar'
 import Navbar from '../components/Navbar'
+import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute'
 
 
 function Layout() {
@@ -37,7 +38,7 @@ export default function AppRouter() {
         </div>
       <BrowserRouter>
       <Routes>
-        <Route element={<Layout />}>
+        <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
         
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/team' element={<Team/>} />

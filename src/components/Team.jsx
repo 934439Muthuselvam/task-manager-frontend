@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import clsx from "clsx";
 
@@ -18,6 +18,7 @@ import { IoIosMailOpen, IoMdLock } from "react-icons/io";
 import { FaPlus, FaUserCheck } from "react-icons/fa";
 import { PiBookOpenUserFill } from "react-icons/pi";
 import toast from "react-hot-toast";
+import { apiAddUser, apiGetUser } from "../Shared/Services/authentication/userapi/apiuser";
 
 export default function Team() {
   // const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -25,15 +26,20 @@ export default function Team() {
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [summary, setSummary] = useState([]);
   const [role, setRole] = useState("");
   const [password, setPassword] = useState("");
 
   const onOpen = () => setIsOpen(true);
   const onClose = () => setIsOpen(false);
+  const apigetuserfun=async()=>{const res = await apiGetUser();setSummary(res)}
+  useEffect(()=>{apigetuserfun()},[])
 
-  const handleSignIn = () => {
+  const handleSignIn = async() => {
     if (name && email && role && password) {
       const userData = { name, email, role, password };
+      const res = await apiAddUser(userData);
+      apigetuserfun()
 
       // Save data to localStorage
       localStorage.setItem("user", JSON.stringify(userData));
@@ -41,8 +47,8 @@ export default function Team() {
       // Console log to verify data saved
       console.log(
         "User data saved to localStorage:",
-        JSON.parse(localStorage.getItem("user"))
-      );
+        res)
+      ;
 
       onClose();
       toast("User data saved.");
@@ -58,39 +64,13 @@ export default function Team() {
 
 
 
-  const summary = [
-    {
-      name: "New User",
-      title: "Designer",
-      role: "Developer",
-    },
-    {
-      name: "Emily Wilson",
-      title: "Data Analyst",
-      role: "Analyst",
-    },
-    {
-      name: "Alex Johnson",
-      title: "UX Designer",
-      role: "Designer",
-    },
-    {
-      name: "Jane Smith",
-      title: "Product Manager",
-      role: "Manager",
-    },
-    {
-      name: "Codewave Asante",
-      title: "Administrator",
-      role: "Admin",
-    },
-  ];
   const TableHeader = () => (
     <thead className="border-b border-gray-300">
       <tr className="text-black text-left">
         <th className="py-2">Full Name</th>
         <th className="py-2">Email</th>
         <th className="py-2">Role</th>
+        <th className="py-2">Password</th>
       </tr>
     </thead>
   );
@@ -102,21 +82,95 @@ export default function Team() {
 
       <td className="p-2">{user.email || "user.emal.com"}</td>
       <td className="p-2">{user.role}</td>
+      <td className="p-2">{user.password}</td>
 
       <td className="p-2 flex gap-4 justify-end">
-        <Button
-          className="text-blue-600 hover:text-blue-500 font-semibold sm:px-0"
-          label="Edit"
-          type="button"
-          onClick={() => editClick(user)}
-        />
+      <Button onPress={onOpen} color="primary">
+            Edit
+          </Button>
+          <Modal
+            isOpen={isOpen}
+            onOpenChange={setIsOpen}
+          
+          >
+            <ModalContent>
+              {() => (
+                <>
+                  <ModalHeader className="flex flex-col gap-1">
+                    User Update
+                  </ModalHeader>
+                  <ModalBody>
+                    <Input
+                      autoFocus
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      endContent={
+                        <FaUserCheck className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                      }
+                      label="Name"
+                      placeholder="Enter User Name"
+                      variant="bordered"
+                      required
+                    />
+
+                    <Input
+                      id="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      endContent={
+                        <IoIosMailOpen className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                      }
+                      label="Email"
+                      placeholder="Enter User email"
+                      variant="bordered"
+                      required
+                    />
+
+                    <Input
+                      value={role}
+                      onChange={(e) => setRole(e.target.value)}
+                      endContent={
+                        <PiBookOpenUserFill className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                      }
+                      label="Role"
+                      placeholder="Enter User Role"
+                      variant="bordered"
+                      required
+                    />
+
+
+                    <Input
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      endContent={
+                        <IoMdLock className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                      }
+                      label="Password"
+                      placeholder="Enter User password"
+                      type="password"
+                      variant="bordered"
+                      required
+                    />
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="danger" variant="flat" onPress={onClose}>
+                      Close
+                    </Button>
+                    <Button color="primary" onPress={handleSignIn}>
+                      Add User Data
+                    </Button>
+                  </ModalFooter>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
 
         <Button
           className="text-red-700 hover:text-red-500 font-semibold sm:px-0"
           label="Delete"
           type="button"
           onClick={() => deleteClick(user?._id)}
-        />
+        >Delete</Button>
       </td>
     </tr>
   );
@@ -182,6 +236,7 @@ export default function Team() {
                       variant="bordered"
                       required
                     />
+
 
                     <Input
                       value={password}

@@ -9,9 +9,9 @@ export default function Navbar() {
   const {Issignin,logout,userdetails}=useAuth();
   const navigate=useNavigate()
 
-useEffect(()=>{if(!Issignin){
-  navigate("/")
-  }},[Issignin])
+// useEffect(()=>{if(!Issignin){
+//   navigate("/")
+//   }},[Issignin])
 
 
   return (

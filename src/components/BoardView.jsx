@@ -1,49 +1,54 @@
-import React from "react";
-import clsx from "clsx";
-// import { tasks } from "../assets/data";
+import React, { useState } from "react";
+import { apiupdatetask } from "../Shared/Services/authentication/userapi/apitask";
 
-const BoardView = () => {
-const tasks=["web development","web development1","web development2","web development3","web development4"]
+const BoardView = ({ tasks: initialTasks,a }) => {
+  // Set the tasks state to track updates within the component
+  const [tasks, setTasks] = useState(initialTasks);
+
+  // Function to handle changes to the task stage
+  const handleStageChange =async (index, newStage,taskdata) => {
+    // Create a new array with the updated task stage
+    const updatedTasks = tasks.map((task, i) =>
+      i === index ? { ...task, taskStage: newStage } : task
+    );
+    
+    const res = await apiupdatetask({ ...taskdata, taskStage: newStage });
+    a()
+    // Update the tasks state with the modified array
+    setTasks(updatedTasks);
+  };
+  const date =(data)=>{ const date=new Date(data);return date.toISOString().split('T')[0];}
+// const trimmedDate = date.toISOString().split('T')[0];
+
   return (
-    <div className='w-full py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 2xl:gap-10'>
+    <div className="w-full py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 2xl:gap-10">
       {tasks.map((task, index) => (
-        <div key={index}>
-        <div className='w-full h-fit bg-white shadow-md p-4 rounded'>
-        <div className='w-full flex justify-between'>
-          
-
-          {/* {user?.isAdmin && <TaskDialog task={task} />} */}
-        </div>
-
-        <>
-          <div className='flex items-center gap-2'>
-            <div
-              className={"w-4 h-4 rounded-full"}
-            />
-            <h4 className='line-clamp-1 text-black'>{task}</h4>
+        <div key={index} className="w-full h-fit bg-white shadow-md p-4 rounded">
+          <div className="w-full flex justify-between">
+            <h4 className="line-clamp-1 text-black font-bold">{task?.taskTitle}</h4>
           </div>
-          <span className='text-sm text-gray-600'>
-            28/10/2024
-          </span>
-        </>
+          <span className="text-sm text-gray-600">{date(task?.taskDate)}</span>
 
-        <div>
-        <label for="cars">Choose a car:</label>
-
-        <select name="cars" id="cars">
-          {/* <option value="volvo">online</option> */}
-          <option value="saab">inprogress</option>
-          <option value="mercedes">completed</option>
-          <option value="audi">testing</option>
-        </select>
+          <div className="mt-4">
+            <label htmlFor={`taskStage-${index}`} className="text-sm text-gray-800">
+              Task Stage:
+            </label>
+            <select
+              id={`taskStage-${index}`}
+              name="taskStage"
+              value={task.taskStage || ""}
+              onChange={(e) => handleStageChange(index, e.target.value,task)}
+              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            >
+              <option value="">Select Stage</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Complete">Complete</option>
+              <option value="Testing">Testing</option>
+            </select>
+          </div>
         </div>
-        </div>
-        
-      {/* <AddSubTask open={open} setOpen={setOpen} id={task._id} /> */}
-      </div>
       ))}
     </div>
-    
   );
 };
 
