@@ -15,73 +15,57 @@ export default function Sidebar() {
       </h1>
 
       <div className="flex-1 flex flex-col gap-y-5 py-8">
-        <div className="flex justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg">
+        <Link to={"/dashboard"} className="flex justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg">
           <div className="mt-1">
             <MdDashboard />
           </div>
           <div>
-            <Link to={"/dashboard"} className="">
               Dashboard
-            </Link>
           </div>
-        </div>
+        </Link>
 
 
-        <div className="flex justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg">
+        <Link to={"/team"} className="flex justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg">
           <div className="mt-1">
             <RiTeamFill />
           </div>
           <div>
-            <Link
-              to={"/team"}
-              className="hover:text-[#2564ed] hover:bg-blue-100"
-            >
+            
               Team
-            </Link>
           </div>
-        </div>
+        </Link>
 
-        <div  className="flex justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg">
+        <Link
+              to={"/tasks"}  className="flex justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg">
           <div  className="mt-1">
             <FaTasks />
           </div>
           <div>
-            <Link
-              to={"/tasks"}
-              className="hover:text-[#2564ed] hover:bg-blue-100"
-            >
               Tasks
-            </Link>
           </div>
-        </div>
+        </Link>
 
-        <div  className="flex justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg">
+        <Link
+              to={"/completed"}  className="flex justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg">
           <div  className="mt-1">
           <MdTaskAlt />
           </div>
           <div>
-            <Link
-              to={"/tasks"}
-              className="hover:text-[#2564ed] hover:bg-blue-100"
-            >
               Completed 
-            </Link>
+            
           </div>
-        </div>
+          </Link>
 
-        <div  className="flex justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg">
+          <Link
+              to={"/inprogress"}  className="flex justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg">
           <div  className="mt-1">
           <MdOutlinePendingActions />
           </div>
           <div>
-            <Link
-              to={"/tasks"}
-              className="hover:text-[#2564ed] hover:bg-blue-100"
-            >
               In progress
-            </Link>
+            
           </div>
-        </div>
+          </Link>
 
        
 

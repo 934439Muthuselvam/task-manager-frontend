@@ -9,10 +9,11 @@ import Signup from '../components/User/Signup'
 import Sidebar from '../components/Sidebar'
 import Navbar from '../components/Navbar'
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute'
+import Completed from '../components/Completed'
+import Inprogress from '../components/Inprogress'
 
 
 function Layout() {
-    const [count, setCount] = useState(0)
   
     return (
       <div className='w-full h-screen flex flex-col md:flex-row bg-[#f3f4f6]'>
@@ -42,8 +43,9 @@ export default function AppRouter() {
         
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/team' element={<Team/>} />
-          <Route path='/tasks' element={<Tasks/>} />
-          
+          <Route path='/tasks' element={<Tasks/>} /> 
+          <Route path='/completed' element={<Completed/>} />
+          <Route path='/inprogress' element={<Inprogress/>} />
           
         </Route>
         <Route path='/' element={<Signin/>} />

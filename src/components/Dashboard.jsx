@@ -1,37 +1,41 @@
 import clsx from 'clsx';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { apiGettask } from '../Shared/Services/authentication/userapi/apitask';
 
 export default function Dashboard() {
+  const [data, setData] = useState([]);
+    const apigettaskfun=async()=>{const res = await apiGettask({filterData:"dashboard"});setData(res)}
+    useEffect(()=>{apigettaskfun()},[])
     const stats = [
         {
           _id: "1",
           label: "TOTAL TASK",
           //   total: totals["completed"] || 0,
           
-          icon: <div className='w-10 h-10 rounded-full bg-green-300 flex justify-center items-center'>10</div>,
+          icon: <div className='w-10 h-10 rounded-full bg-green-300 flex justify-center items-center'>{data?.totaltask}</div>,
           bg: "bg-[#1d4ed8]",
         },
         {
           _id: "2",
           label: "COMPLTED TASK",
         //   total: totals["completed"] || 0,
-          icon: <div className='w-10 h-10 rounded-full bg-green-300 flex justify-center items-center'>5</div>,
+          icon: <div className='w-10 h-10 rounded-full bg-green-300 flex justify-center items-center'>{data?.completed}</div>,
           bg: "bg-[#0f766e]",
         },
         {
           _id: "3",
           label: "TASK IN PROGRESS ",
           //   total: totals["completed"] || 0,
-          icon: <div className='w-10 h-10 rounded-full bg-green-300 flex justify-center items-center'>3</div>,
+          icon: <div className='w-10 h-10 rounded-full bg-green-300 flex justify-center items-center'>{data?.inprogress}</div>,
           bg: "bg-[#f59e0b]",
         },
-        {
-          _id: "4",
-          label: "TODOS",
-          //   total: totals["completed"] || 0,
-          icon: <div className='w-10 h-10 rounded-full bg-green-300 flex justify-center items-center'>2</div>,
-          bg: "bg-[#be185d]" || 0,
-        },
+        // {
+        //   _id: "4",
+        //   label: "TODOS",
+        //   //   total: totals["completed"] || 0,
+        //   icon: <div className='w-10 h-10 rounded-full bg-green-300 flex justify-center items-center'>2</div>,
+        //   bg: "bg-[#be185d]" || 0,
+        // },
       ];
     
       const Card = ({ label, count, bg, icon }) => {

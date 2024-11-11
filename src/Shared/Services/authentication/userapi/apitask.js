@@ -8,7 +8,7 @@ export const apiAddtask=async(datas)=>{
 
 export const apiGettask=async(datas)=>{
     // console.log(datas)
-    const  res=await axios.get(`${apiurl()}/authtask/apiGettask`)
+    const  res=await axios.get(`${apiurl()}/authtask/apiGettask`,{params:datas})
     return res.data
 }
 export const apiupdatetask=async(datas)=>{
