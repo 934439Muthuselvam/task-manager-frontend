@@ -13,9 +13,11 @@ import { FaPlus } from "react-icons/fa";
 import axios from "axios"; // Import axios for API calls
 import toast from "react-hot-toast";
 import { apiAddtask, apiGettask } from "../Shared/Services/authentication/userapi/apitask";
+import useAuth from "../Shared/hooks/useAuth";
 
 export default function Tasks() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const {userdetails}=useAuth();
 
   // Form state management
   const [taskTitle, setTaskTitle] = useState("");
@@ -23,36 +25,33 @@ export default function Tasks() {
   const [taskStage, setTaskStage] = useState("");
   const [taskDate, setTaskDate] = useState("");
   const [data, setData] = useState([]);
-  const apigettaskfun=async()=>{const res = await apiGettask();setData(res)}
+  const apigettaskfun=async()=>{const res = await apiGettask({filterData:{},userdata:userdetails()?.name});setData(res)}
   useEffect(()=>{apigettaskfun()},[])
 
   const handleSubmit = async() => {
     if (taskTitle && assignedUser && taskStage && taskDate) {
       const taskData = { taskTitle, assignedUser, taskStage, taskDate };
+      console.log(taskData)
       const res = await apiAddtask(taskData);
 
-      // Save data to localStorage
-      localStorage.setItem("task", JSON.stringify(taskData));
-
-      // Console log to verify data saved
       console.log(
         "User data saved to localStorage:",
         res)
       ;
 
-      // onClose();
+      onClose();
       toast("User data saved.");
       apigettaskfun()
     } else {
       toast("All fields are required.");
     }
   };
-  console.log(data);
+  console.log(userdetails()?.name);
   return (
     <div className="w-full">
       <div className="flex items-center justify-between mb-4">
         <div className="font-bold text-xl">Tasks</div>
-        <Button onPress={onOpen} color="primary">
+        <Button className={`${userdetails()?.name=="admin"?"block":"hidden"} `} onPress={onOpen} color="primary">
           <FaPlus />
           Create Tasks
         </Button>

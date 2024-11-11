@@ -2,23 +2,18 @@ import React, { useState } from "react";
 import { apiupdatetask } from "../Shared/Services/authentication/userapi/apitask";
 
 const BoardView = ({ tasks: initialTasks,a }) => {
-  // Set the tasks state to track updates within the component
   const [tasks, setTasks] = useState(initialTasks);
 
-  // Function to handle changes to the task stage
   const handleStageChange =async (index, newStage,taskdata) => {
-    // Create a new array with the updated task stage
     const updatedTasks = tasks.map((task, i) =>
       i === index ? { ...task, taskStage: newStage } : task
     );
     
     const res = await apiupdatetask({ ...taskdata, taskStage: newStage });
     a()
-    // Update the tasks state with the modified array
     setTasks(updatedTasks);
   };
-  const date =(data)=>{ const date=new Date(data);return date.toISOString().split('T')[0];}
-// const trimmedDate = date.toISOString().split('T')[0];
+  const date =(data)=>{ const date=new Date(data);return date?.toISOString().split('T')[0];}
 
   return (
     <div className="w-full py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 2xl:gap-10">

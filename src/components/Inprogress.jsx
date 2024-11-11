@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { apiGettask } from '../Shared/Services/authentication/userapi/apitask';
 import BoardView from './BoardView';
+import useAuth from '../Shared/hooks/useAuth';
 
 export default function Inprogress() {
     const [data, setData] = useState([]);
-    const apigettaskfun=async()=>{const res = await apiGettask({filterData:"In Progress"});setData(res)}
+    const {userdetails}=useAuth();
+    const apigettaskfun=async()=>{const res = await apiGettask({filterData:"In Progress",userdata:userdetails()?.name});setData(res)}
     useEffect(()=>{apigettaskfun()},[])
     const date =(data)=>{ const date=new Date(data);return date.toISOString().split('T')[0];}
     return (
@@ -31,3 +33,5 @@ export default function Inprogress() {
       </div>
     )
   }
+
+

@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { apiGettask } from '../Shared/Services/authentication/userapi/apitask';
 import BoardView from './BoardView';
+import useAuth from '../Shared/hooks/useAuth';
 
 export default function Completed() {
   const [data, setData] = useState([]);
-    const apigettaskfun=async()=>{const res = await apiGettask({filterData:"Complete"});setData(res)}
+  const {userdetails}=useAuth();
+    const apigettaskfun=async()=>{const res = await apiGettask({filterData:"Complete",userdata:userdetails()?.name});setData(res)}
     useEffect(()=>{apigettaskfun()},[])
     const date =(data)=>{ const date=new Date(data);return date.toISOString().split('T')[0];}
     return (

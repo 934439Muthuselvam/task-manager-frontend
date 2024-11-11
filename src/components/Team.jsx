@@ -18,17 +18,24 @@ import { IoIosMailOpen, IoMdLock } from "react-icons/io";
 import { FaPlus, FaUserCheck } from "react-icons/fa";
 import { PiBookOpenUserFill } from "react-icons/pi";
 import toast from "react-hot-toast";
-import { apiAddUser, apiGetUser } from "../Shared/Services/authentication/userapi/apiuser";
+import { apiAddUser, apideleteUser, apiGetUser, apiupdateUser } from "../Shared/Services/authentication/userapi/apiuser";
+import { apideletetask } from "../Shared/Services/authentication/userapi/apitask";
+import useAuth from "../Shared/hooks/useAuth";
 
 export default function Team() {
   // const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
+  const {userdetails}=useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const [name, setName] = useState("");
+  const [bool, setbool] = useState(false);
   const [email, setEmail] = useState("");
   const [summary, setSummary] = useState([]);
   const [role, setRole] = useState("");
   const [password, setPassword] = useState("");
+  const [formdata,setformdata]=useState({})
+
+  const handlechange=(e)=>{
+    setformdata({...formdata,[e.target.name]:e.target.value})
+  }
 
   const onOpen = () => setIsOpen(true);
   const onClose = () => setIsOpen(false);
@@ -36,9 +43,8 @@ export default function Team() {
   useEffect(()=>{apigetuserfun()},[])
 
   const handleSignIn = async() => {
-    if (name && email && role && password) {
       const userData = { name, email, role, password };
-      const res = await apiAddUser(userData);
+      const res = await apiAddUser(formdata);
       apigetuserfun()
 
       // Save data to localStorage
@@ -52,14 +58,19 @@ export default function Team() {
 
       onClose();
       toast("User data saved.");
-    } else {
-      toast("All fields are required.");
-    }
+    } 
+  
+
+  const deleteClicks = async(id) => {
+    const res = await apideleteUser(id);
+    apigetuserfun()
+    // setOpenDialog(true);
   };
 
-  const deleteClicks = (id) => {
-    setSelected(id);
-    setOpenDialog(true);
+  const handleupdate = async() => {
+    const res = await apiupdateUser(formdata);
+    onClose();
+    apigetuserfun();
   };
 
 
@@ -85,91 +96,16 @@ export default function Team() {
       <td className="p-2">{user.password}</td>
 
       <td className="p-2 flex gap-4 justify-end">
-      <Button onPress={onOpen} color="primary">
+      <Button onPress={()=>{setbool(true);setformdata(user);onOpen()}} color="primary">
             Edit
           </Button>
-          <Modal
-            isOpen={isOpen}
-            onOpenChange={setIsOpen}
           
-          >
-            <ModalContent>
-              {() => (
-                <>
-                  <ModalHeader className="flex flex-col gap-1">
-                    User Update
-                  </ModalHeader>
-                  <ModalBody>
-                    <Input
-                      autoFocus
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      endContent={
-                        <FaUserCheck className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                      }
-                      label="Name"
-                      placeholder="Enter User Name"
-                      variant="bordered"
-                      required
-                    />
-
-                    <Input
-                      id="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      endContent={
-                        <IoIosMailOpen className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                      }
-                      label="Email"
-                      placeholder="Enter User email"
-                      variant="bordered"
-                      required
-                    />
-
-                    <Input
-                      value={role}
-                      onChange={(e) => setRole(e.target.value)}
-                      endContent={
-                        <PiBookOpenUserFill className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                      }
-                      label="Role"
-                      placeholder="Enter User Role"
-                      variant="bordered"
-                      required
-                    />
-
-
-                    <Input
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      endContent={
-                        <IoMdLock className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                      }
-                      label="Password"
-                      placeholder="Enter User password"
-                      type="password"
-                      variant="bordered"
-                      required
-                    />
-                  </ModalBody>
-                  <ModalFooter>
-                    <Button color="danger" variant="flat" onPress={onClose}>
-                      Close
-                    </Button>
-                    <Button color="primary" onPress={handleSignIn}>
-                      Add User Data
-                    </Button>
-                  </ModalFooter>
-                </>
-              )}
-            </ModalContent>
-          </Modal>
 
         <Button
           className="text-red-700 hover:text-red-500 font-semibold sm:px-0"
           label="Delete"
           type="button"
-          onClick={() => deleteClick(user?._id)}
+          onClick={() => deleteClicks(user?._id)}
         >Delete</Button>
       </td>
     </tr>
@@ -177,9 +113,9 @@ export default function Team() {
   return (
     <>
       <div className="w-full md:px-1 px-0 mb-6">
-        <div className="flex items-center justify-between  font-bold mb-8">
+        <div className="flex items-center justify-between  font-bold mb-8">  
           <div className="text-xl ">Team members</div>
-          <Button onPress={onOpen} color="primary">
+          <Button className={`${userdetails()?.name=="admin"?"block":"hidden"} `} onPress={()=>{setbool(false);setformdata({});onOpen()}} color="primary">
             {
               <div>
                 <FaPlus />
@@ -187,82 +123,7 @@ export default function Team() {
             }
             Add User
           </Button>
-          <Modal
-            isOpen={isOpen}
-            onOpenChange={setIsOpen}
-            placement="top-center"
-          >
-            <ModalContent>
-              {() => (
-                <>
-                  <ModalHeader className="flex flex-col gap-1">
-                    User Details
-                  </ModalHeader>
-                  <ModalBody>
-                    <Input
-                      autoFocus
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      endContent={
-                        <FaUserCheck className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                      }
-                      label="Name"
-                      placeholder="Enter User Name"
-                      variant="bordered"
-                      required
-                    />
-
-                    <Input
-                      id="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      endContent={
-                        <IoIosMailOpen className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                      }
-                      label="Email"
-                      placeholder="Enter User email"
-                      variant="bordered"
-                      required
-                    />
-
-                    <Input
-                      value={role}
-                      onChange={(e) => setRole(e.target.value)}
-                      endContent={
-                        <PiBookOpenUserFill className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                      }
-                      label="Role"
-                      placeholder="Enter User Role"
-                      variant="bordered"
-                      required
-                    />
-
-
-                    <Input
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      endContent={
-                        <IoMdLock className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                      }
-                      label="Password"
-                      placeholder="Enter User password"
-                      type="password"
-                      variant="bordered"
-                      required
-                    />
-                  </ModalBody>
-                  <ModalFooter>
-                    <Button color="danger" variant="flat" onPress={onClose}>
-                      Close
-                    </Button>
-                    <Button color="primary" onPress={handleSignIn}>
-                      Add User Data
-                    </Button>
-                  </ModalFooter>
-                </>
-              )}
-            </ModalContent>
-          </Modal>
+          
         </div>
 
         <div className="bg-white px-2 md:px-4 py-4 shadow-md rounded">
@@ -277,6 +138,86 @@ export default function Team() {
             </table>
           </div>
         </div>
+        <Modal
+            isOpen={isOpen}
+            onOpenChange={setIsOpen}
+          
+          >
+            <ModalContent>
+              {() => (
+                <>
+                  <ModalHeader className="flex flex-col gap-1">
+                    User Update
+                  </ModalHeader>
+                  <ModalBody>
+                    <Input
+                      autoFocus
+                      name="name"
+                      value={formdata?.name}
+                      onChange={(e) => handlechange(e)}
+                      endContent={
+                        <FaUserCheck className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                      }
+                      label="Name"
+                      placeholder="Enter User Name"
+                      variant="bordered"
+                      required
+                    />
+
+                    <Input
+                      id="email"
+                      name="email"
+                      value={formdata?.email}
+                      onChange={(e) => handlechange(e)}
+                      endContent={
+                        <IoIosMailOpen className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                      }
+                      label="Email"
+                      placeholder="Enter User email"
+                      variant="bordered"
+                      required
+                    />
+
+                    <Input
+                      value={formdata?.role}
+                      name="role"
+                      onChange={(e) => handlechange(e)}
+                      endContent={
+                        <PiBookOpenUserFill className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                      }
+                      label="Role"
+                      placeholder="Enter User Role"
+                      variant="bordered"
+                      required
+                    />
+
+
+                    <Input
+                      value={formdata?.password}
+                      name="password"
+                      onChange={(e) => handlechange(e)}
+                      endContent={
+                        <IoMdLock className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                      }
+                      label="Password"
+                      placeholder="Enter User password"
+                      type="password"
+                      variant="bordered"
+                      required
+                    />
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button color="danger" variant="flat" onPress={(onClose)}>
+                      Close
+                    </Button>
+                    <Button color="primary" onPress={()=>{bool?handleupdate():handleSignIn()}}>
+                      {bool?"update User Data":"add data"}
+                    </Button>
+                  </ModalFooter>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
       </div>
 
       {/* <AddUser

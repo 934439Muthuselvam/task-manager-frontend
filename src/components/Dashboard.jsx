@@ -1,10 +1,12 @@
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react'
 import { apiGettask } from '../Shared/Services/authentication/userapi/apitask';
+import useAuth from '../Shared/hooks/useAuth';
 
 export default function Dashboard() {
   const [data, setData] = useState([]);
-    const apigettaskfun=async()=>{const res = await apiGettask({filterData:"dashboard"});setData(res)}
+  const {userdetails}=useAuth();
+    const apigettaskfun=async()=>{const res = await apiGettask({filterData:"dashboard",userdata:userdetails()?.name});setData(res)}
     useEffect(()=>{apigettaskfun()},[])
     const stats = [
         {

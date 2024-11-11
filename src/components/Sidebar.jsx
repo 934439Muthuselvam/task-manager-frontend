@@ -3,8 +3,10 @@ import { FaTasks } from "react-icons/fa";
 import { MdDashboard, MdOutlineAddTask, MdOutlinePendingActions, MdTaskAlt } from "react-icons/md";
 import { RiTeamFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
+import useAuth from "../Shared/hooks/useAuth";
 
 export default function Sidebar() {
+  const {userdetails}=useAuth()
   return (
     <div className="w-full  h-full flex flex-col gap-6 p-5">
       <h1 className="flex gap-1 items-center">
@@ -25,7 +27,7 @@ export default function Sidebar() {
         </Link>
 
 
-        <Link to={"/team"} className="flex justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg">
+        <Link to={"/team"} className={`${userdetails()?.name=="admin"?"flex":"hidden"} justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg`}>
           <div className="mt-1">
             <RiTeamFill />
           </div>
@@ -36,7 +38,7 @@ export default function Sidebar() {
         </Link>
 
         <Link
-              to={"/tasks"}  className="flex justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg">
+              to={"/tasks"}  className={` flex justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg`}>
           <div  className="mt-1">
             <FaTasks />
           </div>

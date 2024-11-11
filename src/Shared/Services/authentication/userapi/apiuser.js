@@ -13,13 +13,13 @@ export const apiGetUser=async(datas)=>{
 }
 
 export const apiupdateUser=async(datas)=>{
-    // console.log(datas)
-    const  res=await axios.put(`${apiurl()}/authuser/apiputuser`,datas)
+    console.log(datas)
+    const  res=await axios.put(`${apiurl()}/authuser/apiupdatetuser`,datas)
     return res.data
 } 
 
 export const apideleteUser=async(datas)=>{
     // console.log(datas)
-    const  res=await axios.get(`${apiurl()}/authuser/apideleteuser`)
+    const  res=await axios.post(`${apiurl()}/authuser/apideleteuser`,{_id:datas},{headers:{}})
     return res.data
 }
