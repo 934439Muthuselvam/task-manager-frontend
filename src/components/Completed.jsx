@@ -7,7 +7,7 @@ import useAuth from '../Shared/hooks/useAuth';
 export default function Completed() {
   const [data, setData] = useState([]);
   const {userdetails}=useAuth();
-    const apigettaskfun=async()=>{const res = await apiGettask({filterData:"Complete",userdata:userdetails()?.name});setData(res)}
+    const apigettaskfun=async()=>{const res = await apiGettask({filterData:"Complete",userdata:userdetails()?.email});setData(res)}
     useEffect(()=>{apigettaskfun()},[])
     const date =(data)=>{ const date=new Date(data);return date.toISOString().split('T')[0];}
     return (
@@ -20,7 +20,15 @@ export default function Completed() {
                   <h4 className="line-clamp-1 text-black font-bold">{task?.taskTitle}</h4>
                 </div>
                 <span className="text-sm text-gray-600">{date(task?.taskDate)}</span>
-      
+                <div className="mt-2 text-gray-700 text-sm flex gap-1">
+                <div>Email :</div>
+                <div className=" flex gap-1">
+                  {task?.assignedUser?.map((a,index)=>(
+                    <div key={index}>{a+","}</div>
+                  ))}
+                  
+                </div>
+              </div>
                 <div className="mt-4">
                   <label htmlFor={`taskStage-${index}`} className="text-sm text-gray-800">
                     Task Stage:

@@ -18,7 +18,7 @@ const BoardView = ({ tasks: initialTasks, a }) => {
     const date = new Date(data);
     return date?.toISOString().split('T')[0];
   };
-
+console.log(tasks)
   return (
     <div className="w-full py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 2xl:gap-10">
       {tasks.map((task, index) => (
@@ -29,12 +29,13 @@ const BoardView = ({ tasks: initialTasks, a }) => {
           </div>
           
           {/* Displaying Name and Email */}
-          <div className="mt-2 text-gray-700 text-sm">
-            <div className="mb-3">
-              <p><strong>Name:</strong> {task?.name}</p>
-            </div>
-            <div className="mb-3">
-              <p><strong>Email:</strong> {task?.email}</p>
+          <div className="mt-2 text-gray-700 text-sm flex gap-1">
+            <div>Email :</div>
+            <div className=" flex gap-1">
+              {task?.assignedUser?.map((a,index)=>(
+                <div key={index}>{a+","}</div>
+              ))}
+              
             </div>
           </div>
 

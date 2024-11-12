@@ -6,7 +6,7 @@ import useAuth from '../Shared/hooks/useAuth';
 export default function Dashboard() {
   const [data, setData] = useState([]);
   const {userdetails}=useAuth();
-    const apigettaskfun=async()=>{const res = await apiGettask({filterData:"dashboard",userdata:userdetails()?.name});setData(res)}
+    const apigettaskfun=async()=>{const res = await apiGettask({filterData:"dashboard",userdata:userdetails()?.email});setData(res)}
     useEffect(()=>{apigettaskfun()},[])
     const stats = [
         {

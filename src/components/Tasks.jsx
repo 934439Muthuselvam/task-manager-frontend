@@ -26,7 +26,7 @@ export default function Tasks() {
   const [taskStage, setTaskStage] = useState("");
   const [taskDate, setTaskDate] = useState("");
   const [data, setData] = useState([]);
-  const apigettaskfun=async()=>{const res = await apiGettask({filterData:{},userdata:userdetails()?.name});setData(res)}
+  const apigettaskfun=async()=>{const res = await apiGettask({filterData:{},userdata:userdetails()?.email});setData(res)}
   useEffect(()=>{apigettaskfun()},[])
 
   const handleSubmit = async() => {
@@ -76,15 +76,15 @@ export default function Tasks() {
               <Input
                 value={assignedUser}
                 onChange={(e) => setAssignedUser(e.target.value)}
-                label="Name for User:"
-                placeholder="Add User Name"
+                label="email for User:"
+                placeholder="Add User email"
                 variant="bordered"
               />
                 <Input
                 value={email}
                 onChange={(e) => setAssignedUserEmail(e.target.value)}
-                label="email for User:"
-                placeholder="Add User email"
+                label="name for User:"
+                placeholder="Add User Name"
                 variant="bordered"
               />
 
