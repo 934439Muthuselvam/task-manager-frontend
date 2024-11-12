@@ -22,6 +22,7 @@ export default function Tasks() {
   // Form state management
   const [taskTitle, setTaskTitle] = useState("");
   const [assignedUser, setAssignedUser] = useState("");
+  const [email, setAssignedUserEmail] = useState("");
   const [taskStage, setTaskStage] = useState("");
   const [taskDate, setTaskDate] = useState("");
   const [data, setData] = useState([]);
@@ -29,8 +30,8 @@ export default function Tasks() {
   useEffect(()=>{apigettaskfun()},[])
 
   const handleSubmit = async() => {
-    if (taskTitle && assignedUser && taskStage && taskDate) {
-      const taskData = { taskTitle, assignedUser, taskStage, taskDate };
+    if (taskTitle && assignedUser && setAssignedUserEmail &&taskStage && taskDate) {
+      const taskData = { taskTitle, assignedUser, setAssignedUserEmail,taskStage, taskDate };
       console.log(taskData)
       const res = await apiAddtask(taskData);
 
@@ -52,7 +53,7 @@ export default function Tasks() {
       <div className="flex items-center justify-between mb-4">
         <div className="font-bold text-xl">Tasks</div>
         <Button className={`${userdetails()?.name=="admin"?"block":"hidden"} `} onPress={onOpen} color="primary">
-          <FaPlus />
+          
           Create Tasks
         </Button>
         <Modal
@@ -75,10 +76,18 @@ export default function Tasks() {
               <Input
                 value={assignedUser}
                 onChange={(e) => setAssignedUser(e.target.value)}
-                label="Assign Task To:"
-                placeholder="Add Users"
+                label="Name for User:"
+                placeholder="Add User Name"
                 variant="bordered"
               />
+                <Input
+                value={email}
+                onChange={(e) => setAssignedUserEmail(e.target.value)}
+                label="email for User:"
+                placeholder="Add User email"
+                variant="bordered"
+              />
+
               <div>
   <label htmlFor="taskStage" className="block text-sm font-medium text-gray-700">
     Task Stage

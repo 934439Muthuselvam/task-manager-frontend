@@ -116,11 +116,7 @@ export default function Team() {
         <div className="flex items-center justify-between  font-bold mb-8">  
           <div className="text-xl ">Team members</div>
           <Button className={`${userdetails()?.name=="admin"?"block":"hidden"} `} onPress={()=>{setbool(false);setformdata({});onOpen()}} color="primary">
-            {
-              <div>
-                <FaPlus />
-              </div>
-            }
+          
             Add User
           </Button>
           
