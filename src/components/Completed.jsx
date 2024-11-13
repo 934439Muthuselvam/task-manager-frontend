@@ -3,10 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import { apiGettask } from '../Shared/Services/authentication/userapi/apitask';
 import BoardView from './BoardView';
 import useAuth from '../Shared/hooks/useAuth';
+import moment from 'moment';
 
 export default function Completed() {
   const [data, setData] = useState([]);
   const {userdetails}=useAuth();
+ 
+// 
+const DateTimeComponent = (data) => {
+  const formattedDate = moment(data).format('YYYY-MM-DD HH:mm:ss');
+  return formattedDate;
+}; 
+
+// 
+
     const apigettaskfun=async()=>{const res = await apiGettask({filterData:"Complete",userdata:userdetails()?.email});setData(res)}
     useEffect(()=>{apigettaskfun()},[])
     const date =(data)=>{ const date=new Date(data);return date.toISOString().split('T')[0];}
@@ -29,6 +39,14 @@ export default function Completed() {
                   
                 </div>
               </div>
+
+              <div className={`mt-2 text-gray-700 text-sm flex gap-1 ${task?.taskStage=="Complete"?"block":"hidden"}`}>
+                <div>Time :</div>
+                <div className=" flex gap-1">
+                  {DateTimeComponent(task?.updatedAt)}
+                </div>
+              </div>
+              
                 <div className="mt-4">
                   <label htmlFor={`taskStage-${index}`} className="text-sm text-gray-800">
                     Task Stage:

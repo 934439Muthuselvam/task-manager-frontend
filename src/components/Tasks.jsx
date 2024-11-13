@@ -8,12 +8,13 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/modal";
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import { FaPlus } from "react-icons/fa";
 import axios from "axios"; // Import axios for API calls
 import toast from "react-hot-toast";
 import { apiAddtask, apiGettask } from "../Shared/Services/authentication/userapi/apitask";
 import useAuth from "../Shared/hooks/useAuth";
+import { apiGetUser } from "../Shared/Services/authentication/userapi/apiuser";
 
 export default function Tasks() {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
@@ -21,13 +22,15 @@ export default function Tasks() {
 
   // Form state management
   const [taskTitle, setTaskTitle] = useState("");
-  const [assignedUser, setAssignedUser] = useState("");
+  const [assignedUser, setAssignedUser] = useState([]);
   const [email, setAssignedUserEmail] = useState("");
   const [taskStage, setTaskStage] = useState("");
   const [taskDate, setTaskDate] = useState("");
   const [data, setData] = useState([]);
+  const [userdropdown, setUserdropdown] = useState([]);
   const apigettaskfun=async()=>{const res = await apiGettask({filterData:{},userdata:userdetails()?.email});setData(res)}
-  useEffect(()=>{apigettaskfun()},[])
+  const apigetuserfun=async()=>{const res = await apiGetUser();setUserdropdown(res)}
+  useEffect(()=>{apigettaskfun(),apigetuserfun()},[])
 
   const handleSubmit = async() => {
     if (taskTitle && assignedUser && setAssignedUserEmail &&taskStage && taskDate) {
@@ -47,7 +50,7 @@ export default function Tasks() {
       toast("All fields are required.");
     }
   };
-  console.log(userdetails()?.name);
+  console.log(assignedUser);
   return (
     <div className="w-full">
       <div className="flex items-center justify-between mb-4">
@@ -73,13 +76,25 @@ export default function Tasks() {
                 placeholder="Enter Task"
                 variant="bordered"
               />
-              <Input
+              {/* <Input
                 value={assignedUser}
                 onChange={(e) => setAssignedUser(e.target.value)}
                 label="email for User:"
                 placeholder="Add User email"
                 variant="bordered"
-              />
+              /> */}
+                <Select
+                  placeholder="Select email"
+                  className="max-w-xs"
+                  selectionMode="multiple"
+                  onSelectionChange={(e)=>{setAssignedUser([...assignedUser, e.currentKey])}}
+                >
+                  {userdropdown?.map((data,i)=>(
+                    <SelectItem key={data.email}>
+                      {data.email}
+                    </SelectItem>
+                  ))}
+                </Select>
                 <Input
                 value={email}
                 onChange={(e) => setAssignedUserEmail(e.target.value)}
@@ -95,7 +110,7 @@ export default function Tasks() {
   <select
     id="taskStage"
     value={taskStage}
-    onChange={(e) => setTaskStage(e.target.value)}
+    onChange={(e) => {setTaskStage(e.target.value)}}
     className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
   >
     <option value="">Select Task Stage</option>
