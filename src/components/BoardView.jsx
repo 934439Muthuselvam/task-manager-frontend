@@ -33,7 +33,7 @@ console.log(tasks)
             <div>Email :</div>
             <div className=" flex gap-1">
               {task?.assignedUser?.map((a,index)=>(
-                <div key={index}>{a+","}</div>
+                <div key={index}>{a+""}</div>
               ))}
               
             </div>
