@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaTasks } from "react-icons/fa";
 import { MdDashboard,  MdOutlinePendingActions, MdReportProblem, MdTaskAlt } from "react-icons/md";
 import { RiTeamFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import useAuth from "../Shared/hooks/useAuth";
 import { SiProgress } from "react-icons/si";
+import { apiGettask } from "../Shared/Services/authentication/userapi/apitask";
 
 export default function Sidebar() {
+  const [data, setData] = useState([]);
   const {userdetails}=useAuth()
+  const apigettaskfun=async()=>{const res = await apiGettask({filterData:"dashboard",userdata:userdetails()?.email});setData(res)}
+  useEffect(()=>{apigettaskfun()},[])
   return (
     <div className="w-full  h-full flex flex-col gap-6 p-5">
       <h1 className="flex gap-1 items-center">
@@ -37,15 +41,15 @@ export default function Sidebar() {
           </div>
         </Link>
 
-        <Link
-              to={"/tasks"}  className={` flex justify-normal gap-2  hover:text-white hover:bg-blue-700 p-2 rounded-lg`}>
+        {/* <Link
+              to={"/tasks"}  className={`${userdetails()?.name=="admin"?"flex":"hidden"} flex justify-normal gap-2  hover:text-white hover:bg-blue-700 p-2 rounded-lg`}>
           <div  className="mt-1">
             <FaTasks />
           </div>
           <div>
               Tasks
           </div>
-        </Link>
+        </Link> */}
 
         <Link
               to={"/assigned-task"}  className="flex justify-normal gap-2 hover:text-white hover:bg-blue-700 p-2 rounded-lg">
@@ -53,7 +57,7 @@ export default function Sidebar() {
           <MdOutlinePendingActions />
           </div>
           <div>
-              Assigned
+              Assigned {data?.totaltask}
             
           </div>
           </Link>
@@ -66,7 +70,7 @@ export default function Sidebar() {
           <SiProgress />
           </div>
           <div>
-              In progress
+              In progress {data?.inprogress}
             
           </div>
           </Link>
@@ -78,7 +82,7 @@ export default function Sidebar() {
           <MdReportProblem />
           </div>
           <div>
-          Some Problem
+          Some Problem {data?.problem}
             
           </div>
           </Link>
@@ -90,7 +94,7 @@ export default function Sidebar() {
           <MdTaskAlt />
           </div>
           <div>
-              Completed 
+              Completed {data?.completed}
             
           </div>
           </Link>

@@ -27,7 +27,7 @@ export default function Tasks() {
   const [taskTitle, setTaskTitle] = useState("");
   const [assignedUser, setAssignedUser] = useState([]);
   const [email, setAssignedUserEmail] = useState("");
-  const [taskStage, setTaskStage] = useState("");
+  const [taskStage, setTaskStage] = useState("Assigned");
   const [taskDate, setTaskDate] = useState("");
   const [data, setData] = useState([]);
   const [userdropdown, setUserdropdown] = useState([]);
@@ -36,6 +36,7 @@ export default function Tasks() {
       filterData: {},
       userdata: userdetails()?.email,
     });
+    console.log(res)
     setData(res);
   };
   const apigetuserfun = async () => {
@@ -80,7 +81,7 @@ export default function Tasks() {
         <div className="font-bold text-xl">Tasks</div>
         <Button
           className={`${userdetails()?.name == "admin" ? "block" : "hidden"} `}
-          onPress={onOpen}
+          onPress={()=>{setAssignedUser("");setTaskTitle("");setTaskDate("");onOpen()}}
           color="primary"
         >
           Create Tasks
@@ -89,6 +90,8 @@ export default function Tasks() {
           isOpen={isOpen}
           onOpenChange={onOpenChange}
           placement="top-center"
+          isDismissable={false}
+          isKeyboardDismissDisabled={true}
         >
           <ModalContent>
             <ModalHeader className="flex flex-col gap-1">Add Task</ModalHeader>
@@ -110,10 +113,8 @@ export default function Tasks() {
               <Select
                 placeholder="Select email"
                 className="w-full"
-                selectionMode="multiple"
-                onSelectionChange={(e) => {
-                  setAssignedUser([...assignedUser, e.currentKey]);
-                }}
+                value={assignedUser}
+                onSelectionChange={(e)=>{e.size==0?setAssignedUser(""):setAssignedUser(e.currentKey)}}
               >
                 {userdropdown?.map((data, i) => (
                   <SelectItem key={data.email}>{data.email}</SelectItem>
@@ -134,19 +135,7 @@ export default function Tasks() {
                 >
                   Task Stage
                 </label>
-                <select
-                  id="taskStage"
-                  value={taskStage}
-                  onChange={(e) => {
-                    setTaskStage(e.target.value);
-                  }}
-                  className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                >
-                  <option value="">Select Task Stage</option>
-                  <option value="Complete">Complete</option>
-                  <option value="In Progress">In Progress</option>
-                 
-                </select>
+                <div>{taskStage}</div>
               </div>
 
               <Input

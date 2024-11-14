@@ -78,6 +78,11 @@ export default function Completed() {
                   {DateTimeComponent(task?.updatedAt)}
                 </div>
               </div>
+              <div className={`${task?.taskinfo==""?"hidden":"block"} w-full flex justify-between`}>
+            <h4 className="line-clamp-1 text-black font-semibold text-base">
+              Task info: {task?.taskinfo}
+            </h4>
+          </div>
 
             </div>
           ))}

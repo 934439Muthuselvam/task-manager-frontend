@@ -21,6 +21,14 @@ export default function Dashboard() {
           bg: "bg-[#1d4ed8]",
         },
 
+        {
+          _id: "3",
+          label: "SOME PROBLEM ",
+          //   total: totals["completed"] || 0,
+          icon: <div className='w-10 h-10 rounded-full bg-red-500 flex justify-center items-center'>{data?.problem}</div>,
+          bg: "bg-[#f59e0b]",
+        },
+
            {
           _id: "3",
           label: "TASK IN PROGRESS ",
@@ -30,13 +38,7 @@ export default function Dashboard() {
         },
 
 
-        {
-          _id: "3",
-          label: "SOME PROBLEM ",
-          //   total: totals["completed"] || 0,
-          icon: <div className='w-10 h-10 rounded-full bg-red-500 flex justify-center items-center'></div>,
-          bg: "bg-[#f59e0b]",
-        },
+    
 
       
 
@@ -90,8 +92,8 @@ export default function Dashboard() {
           </div>
           <div >
             {/* <Team/> */}
-            <Inprogress/>
-          <Completed/>
+            {/* <Inprogress/> */}
+          {/* <Completed/> */}
           
           </div>
           

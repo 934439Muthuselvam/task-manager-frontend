@@ -46,33 +46,7 @@ export default function AssignedTask() {
     apigettaskfun(), apigetuserfun();
   }, []);
 
-  const handleSubmit = async () => {
-    if (
-      taskTitle &&
-      assignedUser &&
-      setAssignedUserEmail &&
-      taskStage &&
-      taskDate
-    ) {
-      const taskData = {
-        taskTitle,
-        assignedUser,
-        setAssignedUserEmail,
-        taskStage,
-        taskDate,
-      };
-      console.log(taskData);
-      const res = await apiAddtask(taskData);
-
-      console.log("User data saved to localStorage:", res);
-
-      onClose();
-      toast("User data saved.");
-      apigettaskfun();
-    } else {
-      toast("All fields are required.");
-    }
-  };
+ 
   console.log(assignedUser);
   return (
     <div className="w-full">
