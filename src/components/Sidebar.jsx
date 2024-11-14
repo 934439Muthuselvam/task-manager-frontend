@@ -1,23 +1,23 @@
 import React from "react";
 import { FaTasks } from "react-icons/fa";
-import { MdDashboard, MdOutlineAddTask, MdOutlinePendingActions, MdTaskAlt } from "react-icons/md";
+import { MdDashboard,  MdOutlinePendingActions, MdReportProblem, MdTaskAlt } from "react-icons/md";
 import { RiTeamFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import useAuth from "../Shared/hooks/useAuth";
+import { SiProgress } from "react-icons/si";
 
 export default function Sidebar() {
   const {userdetails}=useAuth()
   return (
     <div className="w-full  h-full flex flex-col gap-6 p-5">
       <h1 className="flex gap-1 items-center">
-        <p className="bg-blue-600 p-2 rounded-full">
-          <MdOutlineAddTask className="text-white text-2xl font-black" />
-        </p>
-        <span className="text-2xl font-bold text-black">TaskMe</span>
-      </h1>
+  <span className="text-2xl font-bold text-blue-600">Task</span>
+  <span className="text-2xl font-bold text-red-400">Assigner</span>
+</h1>
 
-      <div className="flex-1 flex flex-col gap-y-5 py-8">
-        <Link to={"/dashboard"} className="flex justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg">
+
+      <div className="flex-1 flex flex-col gap-y-5 text-base py-8">
+        <Link to={"/dashboard"} className="flex justify-normal gap-2  hover:text-white hover:bg-blue-700 p-2 rounded-lg">
           <div className="mt-1">
             <MdDashboard />
           </div>
@@ -27,7 +27,7 @@ export default function Sidebar() {
         </Link>
 
 
-        <Link to={"/team"} className={`${userdetails()?.name=="admin"?"flex":"hidden"} justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg`}>
+        <Link to={"/team"} className={`${userdetails()?.name=="admin"?"flex":"hidden"} justify-normal gap-2  hover:text-white hover:bg-blue-700 p-2 rounded-lg`}>
           <div className="mt-1">
             <RiTeamFill />
           </div>
@@ -38,7 +38,7 @@ export default function Sidebar() {
         </Link>
 
         <Link
-              to={"/tasks"}  className={` flex justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg`}>
+              to={"/tasks"}  className={` flex justify-normal gap-2  hover:text-white hover:bg-blue-700 p-2 rounded-lg`}>
           <div  className="mt-1">
             <FaTasks />
           </div>
@@ -48,23 +48,49 @@ export default function Sidebar() {
         </Link>
 
         <Link
-              to={"/completed"}  className="flex justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg">
+              to={"/assigned-task"}  className="flex justify-normal gap-2 hover:text-white hover:bg-blue-700 p-2 rounded-lg">
+          <div  className="mt-1">
+          <MdOutlinePendingActions />
+          </div>
+          <div>
+              Assigned
+            
+          </div>
+          </Link>
+
+       
+
+          <Link
+              to={"/inprogress"}  className="flex justify-normal gap-2 hover:text-white hover:bg-blue-700 p-2 rounded-lg">
+          <div  className="mt-1">
+          <SiProgress />
+          </div>
+          <div>
+              In progress
+            
+          </div>
+          </Link>
+
+
+          <Link
+              to={"/some-problem"}  className="flex justify-normal gap-2 hover:text-white hover:bg-blue-700 p-2 rounded-lg">
+          <div  className="mt-1">
+          <MdReportProblem />
+          </div>
+          <div>
+          Some Problem
+            
+          </div>
+          </Link>
+
+
+          <Link
+              to={"/completed"}  className="flex justify-normal gap-2  hover:text-white hover:bg-blue-700 p-2 rounded-lg">
           <div  className="mt-1">
           <MdTaskAlt />
           </div>
           <div>
               Completed 
-            
-          </div>
-          </Link>
-
-          <Link
-              to={"/inprogress"}  className="flex justify-normal gap-2 hover:text-[#2564ed] hover:bg-blue-100 p-2 rounded-lg">
-          <div  className="mt-1">
-          <MdOutlinePendingActions />
-          </div>
-          <div>
-              In progress
             
           </div>
           </Link>

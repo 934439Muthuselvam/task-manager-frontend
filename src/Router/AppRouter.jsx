@@ -11,6 +11,8 @@ import Navbar from '../components/Navbar'
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute'
 import Completed from '../components/Completed'
 import Inprogress from '../components/Inprogress'
+import AssignedTask from '../components/AssignedTask'
+import SomeProblem from '../components/SomeProblem'
 
 
 function Layout() {
@@ -46,6 +48,8 @@ export default function AppRouter() {
           <Route path='/tasks' element={<Tasks/>} /> 
           <Route path='/completed' element={<Completed/>} />
           <Route path='/inprogress' element={<Inprogress/>} />
+          <Route path='/assigned-task' element={<AssignedTask/>} />
+          <Route path='/some-problem' element={<SomeProblem/>} />
           
         </Route>
         <Route path='/' element={<Signin/>} />

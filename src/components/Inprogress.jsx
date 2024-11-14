@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { apiGettask } from '../Shared/Services/authentication/userapi/apitask';
 import BoardView from './BoardView';
 import useAuth from '../Shared/hooks/useAuth';
+import moment from 'moment';
 
 export default function Inprogress() {
     const [data, setData] = useState([]);
@@ -14,8 +15,10 @@ export default function Inprogress() {
         {data.length>0&&
             <div className="w-full py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 2xl:gap-10">
             {data.map((task, index) => (
-              <div key={index} className="w-full h-fit bg-white shadow-md p-4 rounded">
-                <div className="w-full flex justify-between">
+              <div key={index} className="w-full h-fit bg-yellow-400 shadow-md p-4 rounded">
+                 
+                <div className="w-full flex font-bold gap-1">
+                <div>Task Titile :</div>
                   <h4 className="line-clamp-1 text-black font-bold">{task?.taskTitle}</h4>
                 </div>
                 <span className="text-sm text-gray-600">{date(task?.taskDate)}</span>
@@ -23,7 +26,7 @@ export default function Inprogress() {
                 <div>Email :</div>
                 <div className=" flex gap-1">
                   {task?.assignedUser?.map((a,index)=>(
-                    <div key={index}>{a+","}</div>
+                    <div key={index}>{a+  ""}</div>
                   ))}
                   
                 </div>

@@ -2,6 +2,9 @@ import clsx from 'clsx';
 import React, { useEffect, useState } from 'react'
 import { apiGettask } from '../Shared/Services/authentication/userapi/apitask';
 import useAuth from '../Shared/hooks/useAuth';
+import Inprogress from './Inprogress';
+import Completed from './Completed';
+import Team from './Team';
 
 export default function Dashboard() {
   const [data, setData] = useState([]);
@@ -11,26 +14,44 @@ export default function Dashboard() {
     const stats = [
         {
           _id: "1",
-          label: "TOTAL TASK",
+          label: "ASSIGNED TASK",
           //   total: totals["completed"] || 0,
           
-          icon: <div className='w-10 h-10 rounded-full bg-green-300 flex justify-center items-center'>{data?.totaltask}</div>,
+          icon: <div className='w-10 h-10 rounded-full  bg-blue-500 flex justify-center items-center'>{data?.totaltask}</div>,
           bg: "bg-[#1d4ed8]",
         },
-        {
-          _id: "2",
-          label: "COMPLTED TASK",
-        //   total: totals["completed"] || 0,
-          icon: <div className='w-10 h-10 rounded-full bg-green-300 flex justify-center items-center'>{data?.completed}</div>,
-          bg: "bg-[#0f766e]",
-        },
-        {
+
+           {
           _id: "3",
           label: "TASK IN PROGRESS ",
           //   total: totals["completed"] || 0,
-          icon: <div className='w-10 h-10 rounded-full bg-green-300 flex justify-center items-center'>{data?.inprogress}</div>,
+          icon: <div className='w-10 h-10 rounded-full bg-yellow-500 flex justify-center items-center'>{data?.inprogress}</div>,
           bg: "bg-[#f59e0b]",
         },
+
+
+        {
+          _id: "3",
+          label: "SOME PROBLEM ",
+          //   total: totals["completed"] || 0,
+          icon: <div className='w-10 h-10 rounded-full bg-red-500 flex justify-center items-center'></div>,
+          bg: "bg-[#f59e0b]",
+        },
+
+      
+
+        {
+          _id: "4",
+          label: "COMPLTED TASK",
+        //   total: totals["completed"] || 0,
+          icon: <div className='w-10 h-10 rounded-full bg-green-500 flex justify-center items-center'>{data?.completed}</div>,
+          bg: "bg-[#0f766e]",
+        },
+
+     
+
+      
+       
         // {
         //   _id: "4",
         //   label: "TODOS",
@@ -62,11 +83,18 @@ export default function Dashboard() {
       };
       return (
         <div classNamee='h-full py-4'>
-          <div className='grid grid-cols-1 md:grid-cols-4 gap-5'>
+          <div className='grid grid-cols-1 font-bold md:grid-cols-4 gap-5'>
             {stats.map(({ icon, bg, label, total }, index) => (
               <Card key={index} icon={icon} bg={bg} label={label} count={total} />
             ))}
           </div>
+          <div >
+            {/* <Team/> */}
+            <Inprogress/>
+          <Completed/>
+          
+          </div>
+          
         </div>
       );
     };

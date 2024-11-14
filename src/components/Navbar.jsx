@@ -39,7 +39,7 @@ export default function Navbar() {
         {/* <NotificationPanel /> */}
         {Issignin==true?  <Dropdown >
       <DropdownTrigger>
-        <Button 
+        <Button className='bg-red-400' 
           variant="bordered" 
         >
           My Account
