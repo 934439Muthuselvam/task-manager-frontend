@@ -107,18 +107,18 @@ const Signin = () => {
                   Sign In
                 </button>
   
-                <p className="text-sm text-center text-gray-500 ">
+                {/* <p className="text-sm text-center text-gray-500 ">
                   Create a new account{" "}
                   <a href="/sign-up" className="text-blue-600 ">
                     Sign up
                   </a>
-                </p>
-                <p className="text-sm text-center  text-gray-500  ">
+                </p> */}
+                {/* <p className="text-sm text-center  text-gray-500  ">
                   Forgot your password?{" "}
                   <a href="" className="text-blue-600 ">
                     Reset it
                   </a>
-                </p>
+                </p> */}
               </div>
             </form>
           </div>

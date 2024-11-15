@@ -19,7 +19,7 @@ export default function SomeProblem() {
 
   const apigettaskfun = async () => {
     const res = await apiGettask({
-      filterData: "Problem",
+      filterData: "Blocked",
       userdata: userdetails()?.email,
     });
     setData(res);

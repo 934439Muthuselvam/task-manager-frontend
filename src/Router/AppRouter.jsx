@@ -45,10 +45,10 @@ export default function AppRouter() {
         
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/team' element={<Team/>} />
-          {/* <Route path='/tasks' element={<Tasks/>} />  */}
+          <Route path='/tasks' element={<Tasks/>} /> 
           <Route path='/completed' element={<Completed/>} />
           <Route path='/inprogress' element={<Inprogress/>} />
-          <Route path='/assigned-task' element={<Tasks/>} />
+          <Route path='/assigned-task' element={<AssignedTask/>} />
           <Route path='/some-problem' element={<SomeProblem/>} />
           
         </Route>

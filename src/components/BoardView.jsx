@@ -5,49 +5,49 @@ import useAuth from "../Shared/hooks/useAuth";
 import { div } from "framer-motion/client";
 import { warn } from "dialog";
 
-const BoardView = ({ tasks: initialTasks, a }) => {
-  const { userdetails } = useAuth();
-  const [tasks, setTasks] = useState(initialTasks);
+const BoardView = ({ tasks: initialTasks, a ,bool}) => {
+  const { userdetails,boolval,setboolval } = useAuth();
+  const [tasks, setTasks] = useState();
   const [taskTitle, setTaskTitle] = useState("");
 
-  const handleStageChange =  (index, newStage) => {
+  const handleStageChange = (index, newStage) => {
     const updatedTasks = tasks.map((task, i) =>
       i === index ? { ...task, taskStage: newStage } : task
     );
     setTasks(updatedTasks);
   };
 
-  const handletextChange =  (index, newStage) => {
+  const handletextChange = (index, newStage) => {
     const updatedTasks = tasks.map((task, i) =>
       i === index ? { ...task, taskinfo: newStage } : task
     );
     setTasks(updatedTasks);
   };
 
-  const submit=async(taskdata,index,data)=>{
-    if(data!=""){
-      const res = await apiupdatetask({taskdata});
-      res&&alert("Submitted Succesfully")
+  const submit = async (taskdata, index, data) => {
+    if (data != "") {
+      const res = await apiupdatetask({ taskdata });
+      res && alert("Submitted Succesfully");
       a();
       const updatedTasks = tasks.map((task, i) =>
         i === index ? { ...task, taskinfo: "" } : task
       );
-      setTasks(updatedTasks); 
+      setTasks(updatedTasks);
+      setboolval(!boolval)
+    } else {
+      alert("Input field cannot be Empty");
     }
-    else{
-      alert("Input field cannot be Empty")
-    }
-    
-  }
+  };
 
-  useEffect(()=>{
-    const updatedTasks = tasks.map(task => ({
+  useEffect(() => {
+    const updatedTasks = initialTasks.map((task) => ({
       ...task,
-      taskinfo: ""  // Replace taskinfo with an empty string
+      taskinfo: "", // Replace taskinfo with an empty string
     }));
-    
+
     setTasks(updatedTasks);
-  },[])
+   
+  }, [initialTasks]);
 
   const formatDate = (data) => {
     const date = new Date(data);
@@ -56,44 +56,42 @@ const BoardView = ({ tasks: initialTasks, a }) => {
   console.log(tasks);
   return (
     <div className="w-full py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 2xl:gap-10">
-      {tasks.map((task, index) => (
+      {tasks?.map((task, index) => (
         <div
           key={index}
-          className="w-full h-fit bg-blue-600  shadow-md p-4 rounded"
+          className="w-full h-fit bg-blue-600 shadow-lg p-6 rounded-lg transition-all duration-300 ease-in-out hover:scale-105"
         >
           {/* Task Title */}
           <div className="w-full flex justify-between">
-            <h4 className="line-clamp-1 text-white font-semibold text-base">
-              Task Title: {task?.taskTitle}
+            <h4 className="line-clamp-1 text-white font-semibold text-xl">
+              Task Title : {task?.taskTitle}
             </h4>
           </div>
 
           {/* Displaying Name and Email */}
-          <div className="mt-2 text-white text-sm flex gap-1">
-            <div>Email :</div>
-            <div className=" flex gap-1">
+          <div className="mt-3 text-white text-sm flex gap-2">
+            <div className="font-medium">Email:</div>
+            <div className="flex gap-1">
               {task?.assignedUser?.map((a, index) => (
-                <div key={index}>{a + ""}</div>
+                <div key={index} className="text-white">
+                  {a}
+                </div>
               ))}
             </div>
           </div>
 
-          {/* Task Stage Selector */}
-
-
-          
-          <div>
-            <span className="text-white text-sm">
-              {formatDate(task?.taskDate)}
-            </span>
+          {/* Task Date */}
+          <div className="mt-2 text-white text-sm">
+            {formatDate(task?.taskDate)}
           </div>
-          
+
+          {/* Conditional rendering based on user role (Admin vs Regular User) */}
           {userdetails()?.name=="admin"?(
             <div>
             <div className="mt-4">
             <label
               htmlFor={`taskStage-${index}`}
-              className="text-sm text-gray-800"
+              className="text-sm text-white"
             >
               Task Stage:
             </label>
@@ -105,57 +103,78 @@ const BoardView = ({ tasks: initialTasks, a }) => {
             </h4>
           </div>
           </div>
-          ):(
-            <div>
-              <div className="mt-4 mb-3">
-            <label
-              htmlFor={`taskStage-${index}`}
-              className="text-white text-sm"
-            >
-              Task Stage:
-            </label>
-            <select
-              id={`taskStage-${index}`}
-              name="taskStage"
-              value={task.taskStage || ""}
-              onChange={(e) => handleStageChange(index, e.target.value)}
-              className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm
-      ${
-        task.taskStage === "Complete"
-          ? "bg-green-400"
-          : task.taskStage === "In Progress"
-          ? "bg-yellow-400"
-          :task.taskStage === "Problem"? "bg-red-400": "bg-blue-400"
-      }`}
-            >
-              <option value="Assigned">Assigned</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Complete">Complete</option>
-              <option value="Problem">Problem</option>
-            </select>
-          </div>
-            <div className={`mt-2 text-white text-sm flex gap-1 w-full`}>
-            <div className=" flex gap-1">
-            <Input
-                value={tasks[index]?.taskinfo}
-                onChange={(e) => handletextChange(index,e.target.value)}
-                placeholder="Enter Task"
-                variant="bordered"
-                className="bg-white text-black rounded-xl w-full"
-                required
-              />
-            </div>
-          </div>
-          <div onClick={()=>submit(task,index,tasks[index]?.taskinfo)} role="button">submit</div>
-          </div>
-          )}
-          
+          ) : (
 
-          {/* Task Date */}
-          
-          
+            <div className="mt-4">
+              {/* Task Stage Selector */}
+              <div className="mb-3">
+                <label
+                  htmlFor={`taskStage-${index}`}
+                  className="text-white text-sm block"
+                >
+                  Task Stage:
+                </label>
+                <select
+                  id={`taskStage-${index}`}
+                  name="taskStage"
+                  value={task.taskStage || ""}
+                  onChange={(e) => handleStageChange(index, e.target.value)}
+                  className={`mt-1 text-white w-full px-3 py-2  rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm appearance-none 
+                                   ${
+                                    task.taskStage === "Complete"
+                                   ? "bg-green-500"
+                                   : task.taskStage === "In Progress"
+                                   ? "bg-yellow-500"
+                                    : task.taskStage === "Blocked"
+                                    ? "bg-red-500"
+                                    : "bg-blue-500"
+                                    }`}
+                >
+                  <option value="Assigned" disabled>Assigned</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Complete">Complete</option>
+                  <option value="Blocked">Blocked</option>
+                </select>
+
+                {/* Custom Select Arrow */}
+                <style>
+                         {`
+                               select {
+                           -webkit-appearance: none;
+                               -moz-appearance: none;
+                             appearance: none;
+                                 background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"%3E%3Cpath fill="black" d="M12 6l-4 4-4-4z" /%3E%3C/svg%3E');
+                               background-repeat: no-repeat;
+                               background-position: right 1rem center;
+                        background-size: 16px; /* Increase the arrow size */
+                          }
+                         `}
+                </style>
+              </div>
+
+              {/* Task Info Input */}
+              <div className="mt-2 text-white text-sm">
+                <Input
+                  value={tasks[index]?.taskinfo}
+                  onChange={(e) => handletextChange(index, e.target.value)}
+                  placeholder="Enter Task Info"
+                  className="bg-white text-black rounded-xl w-full"
+                  required
+                />
+              </div>
+
+              {/* Submit Button */}
+              <div
+                onClick={() => submit(task, index, tasks[index]?.taskinfo)}
+                role="button"
+                className="mt-4 py-2 px-4 text-center bg-blue-700 hover:bg-blue-800 text-white rounded-lg cursor-pointer"
+              >
+                Submit
+              </div>
+            </div>
+          )}
+
         </div>
-        
       ))}
     </div>
   );

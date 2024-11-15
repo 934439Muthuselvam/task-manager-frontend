@@ -1,6 +1,7 @@
 import {create} from 'zustand';
 const useAuth=create((set)=>({
     Issignin :localStorage.getItem('access_token')!=null?true: false,
+    boolval:true,
     settoken:(token)=>set(()=>{
         localStorage.setItem("access_token",token)
         return{Issignin:true }
@@ -19,6 +20,10 @@ const useAuth=create((set)=>({
         localStorage.removeItem('access_token');
         return{Issignin:false }
 
+    }),
+
+    setboolval: () => set((state) => {
+        return { boolval: !state.boolval }; 
     })
 }))
 export default useAuth;

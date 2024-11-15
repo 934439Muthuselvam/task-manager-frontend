@@ -17,12 +17,12 @@ export default function Dashboard() {
           label: "ASSIGNED TASK",
           //   total: totals["completed"] || 0,
           
-          icon: <div className='w-10 h-10 rounded-full  bg-blue-500 flex justify-center items-center'>{data?.totaltask}</div>,
+          icon: <div className='w-10 h-10 rounded-full  bg-blue-500 flex justify-center items-center'>{data?.assignedtask}</div>,
           bg: "bg-[#1d4ed8]",
         },
 
         {
-          _id: "3",
+          _id: "2",
           label: "SOME PROBLEM ",
           //   total: totals["completed"] || 0,
           icon: <div className='w-10 h-10 rounded-full bg-red-500 flex justify-center items-center'>{data?.problem}</div>,
@@ -49,6 +49,14 @@ export default function Dashboard() {
           icon: <div className='w-10 h-10 rounded-full bg-green-500 flex justify-center items-center'>{data?.completed}</div>,
           bg: "bg-[#0f766e]",
         },
+        {
+          _id: "5",
+          label: "Total TASK",
+          //   total: totals["completed"] || 0,
+          
+          icon: <div className='w-10 h-10 rounded-full  bg-blue-500 flex justify-center items-center'>{data?.totaltask}</div>,
+          bg: "bg-[#1d4ed8]",
+        },
 
      
 
@@ -65,8 +73,8 @@ export default function Dashboard() {
     
       const Card = ({ label, count, bg, icon }) => {
         return (
-          <div className='w-full h-32 bg-white p-5 shadow-md rounded-md flex items-center justify-between'>
-            <div className='h-full flex flex-1 flex-col justify-between'>
+          <div className='w-full h-20 bg-white p-5 shadow-md rounded-md flex items-center justify-between'>
+            <div className=' flex flex-1 flex-col justify-between'>
               <p className='text-base text-gray-600'>{label}</p>
               <span className='text-2xl font-semibold'>{count}</span>
               {/* <span className='text-sm text-gray-400'>{"110 last month"}</span> */}

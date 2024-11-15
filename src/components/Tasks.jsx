@@ -9,8 +9,6 @@ import {
   useDisclosure,
 } from "@nextui-org/modal";
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
-import { FaPlus } from "react-icons/fa";
-import axios from "axios"; // Import axios for API calls
 import toast from "react-hot-toast";
 import {
   apiAddtask,
@@ -22,66 +20,84 @@ import { apiGetUser } from "../Shared/Services/authentication/userapi/apiuser";
 export default function Tasks() {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const { userdetails } = useAuth();
+  const[bool,setbool]=useState();
 
-  // Form state management
   const [taskTitle, setTaskTitle] = useState("");
-  const [assignedUser, setAssignedUser] = useState([]);
-  const [email, setAssignedUserEmail] = useState("");
+  const [assignedUser, setAssignedUser] = useState("");
+  const [assignedUserName, setAssignedUserName] = useState(""); // State for user name
   const [taskStage, setTaskStage] = useState("Assigned");
   const [taskDate, setTaskDate] = useState("");
   const [data, setData] = useState([]);
-  const [userdropdown, setUserdropdown] = useState([]);
+  const [userdropdown, setUserdropdown] = useState([]); // List of users for dropdown
+
+  // Fetch tasks
   const apigettaskfun = async () => {
     const res = await apiGettask({
       filterData: {},
       userdata: userdetails()?.email,
     });
-    console.log(res)
     setData(res);
   };
+
+  console.log("data",data)
+
+  // Fetch users for dropdown
   const apigetuserfun = async () => {
     const res = await apiGetUser();
     setUserdropdown(res);
   };
-  useEffect(() => {
-    apigettaskfun(), apigetuserfun();
-  }, []);
 
+  useEffect(() => {
+    apigettaskfun();
+    apigetuserfun();
+    console.log("sdfsd")
+  }, [bool]);
+
+  // Handle task form submission
   const handleSubmit = async () => {
-    if (
-      taskTitle &&
-      assignedUser &&
-      setAssignedUserEmail &&
-      taskStage &&
-      taskDate
-    ) {
+    if (taskTitle && assignedUser && assignedUserName && taskStage && taskDate) {
       const taskData = {
         taskTitle,
         assignedUser,
-        setAssignedUserEmail,
+        assignedUserName,
         taskStage,
         taskDate,
       };
-      console.log(taskData);
-      const res = await apiAddtask(taskData);
-
-      console.log("User data saved to localStorage:", res);
-
+      await apiAddtask(taskData);
       onClose();
       toast("User data saved.");
-      apigettaskfun();
+
+      // Option 1: Full page reload (uncomment if you want this behavior)
+      // window.location.reload();
+
+      // Option 2: Component refresh (uncomment if you prefer this approach)
+      apigettaskfun(); // Refresh component data
+      setbool(!bool)
+
     } else {
       toast("All fields are required.");
     }
   };
-  console.log(assignedUser);
+
+  // Handle user selection from dropdown
+  const handleUserSelection = (email) => {
+    const selectedUser = userdropdown.find((user) => user.email === email);
+    setAssignedUser(email);
+    setAssignedUserName(selectedUser?.name || ""); // Set user's name based on selection
+  };
+
   return (
     <div className="w-full">
       <div className="flex items-center justify-between mb-4">
         <div className="font-bold text-xl">Tasks</div>
         <Button
-          className={`${userdetails()?.name == "admin" ? "block" : "hidden"} `}
-          onPress={()=>{setAssignedUser("");setTaskTitle("");setTaskDate("");onOpen()}}
+          className={`${userdetails()?.name === "admin" ? "block" : "hidden"}`}
+          onPress={() => {
+            setAssignedUser("");
+            setTaskTitle("");
+            setTaskDate("");
+            onOpen();
+          }}
           color="primary"
         >
           Create Tasks
@@ -103,41 +119,25 @@ export default function Tasks() {
                 placeholder="Enter Task"
                 variant="bordered"
               />
-              {/* <Input
-                value={assignedUser}
-                onChange={(e) => setAssignedUser(e.target.value)}
-                label="email for User:"
-                placeholder="Add User email"
-                variant="bordered"
-              /> */}
               <Select
                 placeholder="Select email"
                 className="w-full"
                 value={assignedUser}
-                onSelectionChange={(e)=>{e.size==0?setAssignedUser(""):setAssignedUser(e.currentKey)}}
+                onSelectionChange={(e) => handleUserSelection(e.currentKey)}
               >
-                {userdropdown?.map((data, i) => (
-                  <SelectItem key={data.email}>{data.email}</SelectItem>
+                {userdropdown.map((user) => (
+                  <SelectItem key={user.email} value={user.email}>
+                    {user.email}
+                  </SelectItem>
                 ))}
               </Select>
-              {/* <Input
-                value={email}
-                onChange={(e) => setAssignedUserEmail(e.target.value)}
-                label="name for User:"
-                placeholder="Add User Name"
+              <Input
+                value={assignedUserName}
+                label="User Name"
+                placeholder="User's name will appear here"
+                readOnly // Make input read-only since it's auto-filled
                 variant="bordered"
-              /> */}
-
-              <div>
-                <label
-                  htmlFor="taskStage"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Task Stage
-                </label>
-                <div>{taskStage}</div>
-              </div>
-
+              />
               <Input
                 value={taskDate}
                 onChange={(e) => setTaskDate(e.target.value)}
@@ -148,11 +148,7 @@ export default function Tasks() {
               />
             </ModalBody>
             <ModalFooter>
-              <Button
-                color="danger"
-                variant="flat"
-                onPress={() => onOpenChange(false)}
-              >
+              <Button color="danger" variant="flat" onPress={onClose}>
                 Cancel
               </Button>
               <Button color="primary" onPress={handleSubmit}>
@@ -162,7 +158,7 @@ export default function Tasks() {
           </ModalContent>
         </Modal>
       </div>
-      {data.length > 0 && <BoardView tasks={data} a={apigettaskfun} />}
+      {data.length > 0 && <BoardView tasks={data} a={apigettaskfun} bool={bool} data={data} setData={setData} />}
     </div>
   );
 }
