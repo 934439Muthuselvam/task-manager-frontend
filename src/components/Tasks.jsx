@@ -19,7 +19,7 @@ import { apiGetUser } from "../Shared/Services/authentication/userapi/apiuser";
 
 export default function Tasks() {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
-  const { userdetails } = useAuth();
+  const { userdetails,setboolval } = useAuth();
   const[bool,setbool]=useState();
 
   const [taskTitle, setTaskTitle] = useState("");
@@ -72,12 +72,28 @@ export default function Tasks() {
 
       // Option 2: Component refresh (uncomment if you prefer this approach)
       apigettaskfun(); // Refresh component data
-      setbool(!bool)
+      setboolval()
 
     } else {
       toast("All fields are required.");
     }
   };
+
+
+  // const submit = async (taskdata, index, data) => {
+  //   if (data != "") {
+  //     const res = await apiupdatetask({ taskdata });
+  //     res && alert("Submitted Succesfully");
+  //     a();
+  //     const updatedTasks = tasks.map((task, i) =>
+  //       i === index ? { ...task, taskinfo: "" } : task
+  //     );
+  //     setTasks(updatedTasks);
+  //     setboolval(!boolval)
+  //   } else {
+  //     alert("Input field cannot be Empty");
+  //   }
+  // };
 
   // Handle user selection from dropdown
   const handleUserSelection = (email) => {
@@ -138,14 +154,16 @@ export default function Tasks() {
                 readOnly // Make input read-only since it's auto-filled
                 variant="bordered"
               />
-              <Input
-                value={taskDate}
-                onChange={(e) => setTaskDate(e.target.value)}
-                label="Task Date"
-                type="date"
-                placeholder="Select task date"
-                variant="bordered"
-              />
+             <Input
+  value={taskDate}
+  onChange={(e) => setTaskDate(e.target.value)}
+  label="Task Date"
+  type="date"
+  placeholder="Select task date"
+  variant="bordered"
+  min={new Date().toISOString().split('T')[0]} // Minimum date is today
+/>
+
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="flat" onPress={onClose}>

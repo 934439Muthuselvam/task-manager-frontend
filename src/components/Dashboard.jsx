@@ -6,18 +6,30 @@ import Inprogress from './Inprogress';
 import Completed from './Completed';
 import Team from './Team';
 
+
 export default function Dashboard() {
   const [data, setData] = useState([]);
   const {userdetails}=useAuth();
     const apigettaskfun=async()=>{const res = await apiGettask({filterData:"dashboard",userdata:userdetails()?.email});setData(res)}
     useEffect(()=>{apigettaskfun()},[])
     const stats = [
+
+      {
+        _id: "5",
+        label: "Total TASK",
+        //   total: totals["completed"] || 0,
+        
+        icon: <div className='w-10 h-10 rounded-full  bg-blue-700 flex justify-center items-center'>{data?.totaltask}</div>,
+        bg: "bg-[#1d4ed8]",
+      },
+
+
         {
           _id: "1",
           label: "ASSIGNED TASK",
           //   total: totals["completed"] || 0,
           
-          icon: <div className='w-10 h-10 rounded-full  bg-blue-500 flex justify-center items-center'>{data?.assignedtask}</div>,
+          icon: <div className='w-10 h-10 rounded-full  bg-pink-500 flex justify-center items-center'>{data?.assignedtask}</div>,
           bg: "bg-[#1d4ed8]",
         },
 
@@ -49,15 +61,7 @@ export default function Dashboard() {
           icon: <div className='w-10 h-10 rounded-full bg-green-500 flex justify-center items-center'>{data?.completed}</div>,
           bg: "bg-[#0f766e]",
         },
-        {
-          _id: "5",
-          label: "Total TASK",
-          //   total: totals["completed"] || 0,
-          
-          icon: <div className='w-10 h-10 rounded-full  bg-blue-500 flex justify-center items-center'>{data?.totaltask}</div>,
-          bg: "bg-[#1d4ed8]",
-        },
-
+      
      
 
       
@@ -93,12 +97,13 @@ export default function Dashboard() {
       };
       return (
         <div classNamee='h-full py-4'>
-          <div className='grid grid-cols-1 font-bold md:grid-cols-4 gap-5'>
+          <div className='grid grid-cols-1 font-bold md:grid-cols-5 gap-5'>
             {stats.map(({ icon, bg, label, total }, index) => (
               <Card key={index} icon={icon} bg={bg} label={label} count={total} />
             ))}
           </div>
           <div >
+            {/* <Chart/> */}
             {/* <Team/> */}
             {/* <Inprogress/> */}
           {/* <Completed/> */}

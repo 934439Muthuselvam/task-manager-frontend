@@ -48,7 +48,7 @@ export default function AssignedTask() {
           {data.map((task, index) => (
             <div
               key={index}
-              className="w-full bg-yellow-500 shadow-lg hover:shadow-xl rounded-lg overflow-hidden transform transition-all duration-300 ease-in-out hover:scale-105"
+              className="w-full bg-pink-500 shadow-lg hover:shadow-xl rounded-lg overflow-hidden transform transition-all duration-300 ease-in-out hover:scale-105"
             >
               <div className="p-4">
                 {/* Task Title */}

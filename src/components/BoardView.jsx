@@ -59,7 +59,7 @@ const BoardView = ({ tasks: initialTasks, a ,bool}) => {
       {tasks?.map((task, index) => (
         <div
           key={index}
-          className="w-full h-fit bg-blue-600 shadow-lg p-6 rounded-lg transition-all duration-300 ease-in-out hover:scale-105"
+          className="w-full h-fit bg-blue-700 shadow-lg p-6 rounded-lg transition-all duration-300 ease-in-out hover:scale-105"
         >
           {/* Task Title */}
           <div className="w-full flex justify-between">
@@ -127,7 +127,7 @@ const BoardView = ({ tasks: initialTasks, a ,bool}) => {
                                    ? "bg-yellow-500"
                                     : task.taskStage === "Blocked"
                                     ? "bg-red-500"
-                                    : "bg-blue-500"
+                                    : "bg-pink-500"
                                     }`}
                 >
                   <option value="Assigned" disabled>Assigned</option>
@@ -167,7 +167,7 @@ const BoardView = ({ tasks: initialTasks, a ,bool}) => {
               <div
                 onClick={() => submit(task, index, tasks[index]?.taskinfo)}
                 role="button"
-                className="mt-4 py-2 px-4 text-center bg-blue-700 hover:bg-blue-800 text-white rounded-lg cursor-pointer"
+                className="mt-4 py-2 px-4 text-center bg-blue-600 hover:bg-blue-900 text-white rounded-lg cursor-pointer"
               >
                 Submit
               </div>

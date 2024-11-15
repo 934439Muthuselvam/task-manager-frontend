@@ -14,7 +14,7 @@ import { apiGettask } from "../Shared/Services/authentication/userapi/apitask";
 
 export default function Sidebar() {
   const [data, setData] = useState([]);
-  const { userdetails,boolval } = useAuth();
+  const { userdetails, boolval } = useAuth();
   const apigettaskfun = async () => {
     const res = await apiGettask({
       filterData: "dashboard",
@@ -44,20 +44,22 @@ export default function Sidebar() {
         </Link>
 
         <Link
-  to={"/team"}
-  className={`${
-    userdetails()?.name === "admin" ? "flex" : "hidden"
-  } justify-normal gap-2 hover:text-white hover:bg-orange-500 p-2 rounded-lg 
-  active:scale-110 transition-transform duration-150 ease-in-out`}
->
-  <div className="mt-1">
-    <RiTeamFill />
-  </div>
-  <div>Team</div>
-</Link>
+          to={"/team"}
+          className={`${
+            userdetails()?.name === "admin" ? "flex" : "hidden"
+                           } justify-normal gap-2 hover:text-white hover:bg-orange-500 p-2 rounded-lg 
+                          active:scale-110 transition-transform duration-150 ease-in-out`}
+                         >
+            <div className="mt-1">
+            <RiTeamFill />
+          </div>
+          <div>Team</div>
+        </Link>
 
-                <Link
-              to={"/tasks"}  className={`flex items-center justify-between hover:text-white hover:bg-blue-700 p-2 rounded-lg transition-transform duration-150 ease-in-out active:scale-105`}>
+        <Link
+          to={"/tasks"}
+          className={`flex items-center justify-between hover:text-white hover:bg-blue-700 p-2 rounded-lg transition-transform duration-150 ease-in-out active:scale-105`}
+        >
           {/* <div  className="mt-1">
             <FaTasks />
           </div>
@@ -65,59 +67,55 @@ export default function Sidebar() {
               Tasks
           </div> */}
           <div className="flex items-center gap-2">
-          <FaTasks  className="text-xl" />
-    <span>Tasks</span>
-  </div>
-  <span>{data?.totaltask}</span>
-        </Link> 
+            <FaTasks className="text-xl" />
+            <span>Total Tasks</span>
+          </div>
+          <span>{data?.totaltask}</span>
+        </Link>
 
-<Link
-  to={"/assigned-task"}
-  className="flex items-center justify-between hover:text-white hover:bg-blue-700 p-2 rounded-lg transition-transform duration-150 ease-in-out active:scale-105"
->
-  <div className="flex items-center gap-2">
-    <MdOutlinePendingActions className="text-xl" />
-    <span>Assigned</span>
-  </div>
-  <span>{data?.assignedtask}</span>
-</Link>
+        <Link
+          to={"/assigned-task"}
+          className="flex items-center justify-between hover:text-white hover:bg-pink-500 p-2 rounded-lg transition-transform duration-150 ease-in-out active:scale-105"
+        >
+          <div className="flex items-center gap-2">
+            <MdOutlinePendingActions className="text-xl" />
+            <span>Assigned</span>
+          </div>
+          <span>{data?.assignedtask}</span>
+        </Link>
 
+        <Link
+          to={"/inprogress"}
+          className="flex items-center justify-between hover:text-white hover:bg-yellow-500 p-2 rounded-lg transition-transform duration-150 ease-in-out active:scale-105"
+        >
+          <div className="flex items-center gap-2">
+            <SiProgress className="text-xl" />
+            <span>In progress</span>
+          </div>
+          <span>{data?.inprogress}</span>
+        </Link>
 
-<Link
-  to={"/inprogress"}
-  className="flex items-center justify-between hover:text-white hover:bg-yellow-500 p-2 rounded-lg transition-transform duration-150 ease-in-out active:scale-105"
->
-  <div className="flex items-center gap-2">
-    <SiProgress className="text-xl" />
-    <span>In progress</span>
-  </div>
-  <span>{data?.inprogress}</span>
-</Link>
+        <Link
+          to={"/some-problem"}
+          className="flex items-center justify-between hover:text-white hover:bg-red-500 p-2 rounded-lg transition-transform duration-150 ease-in-out active:scale-105"
+        >
+          <div className="flex items-center gap-2">
+            <MdReportProblem className="text-xl" />
+            <span>Blocked</span>
+          </div>
+          <span>{data?.problem}</span>
+        </Link>
 
-
-<Link
-  to={"/some-problem"}
-  className="flex items-center justify-between hover:text-white hover:bg-red-500 p-2 rounded-lg transition-transform duration-150 ease-in-out active:scale-105"
->
-  <div className="flex items-center gap-2">
-    <MdReportProblem className="text-xl" />
-    <span>Blocked</span>
-  </div>
-  <span>{data?.problem}</span>
-</Link>
-
-
-<Link
-  to={"/completed"}
-  className="flex items-center justify-between hover:text-white hover:bg-green-500 p-2 rounded-lg transition-transform duration-150 ease-in-out active:scale-105"
->
-  <div className="flex items-center gap-2">
-    <MdTaskAlt className="text-xl" />
-    <span>Completed</span>
-  </div>
-  <span>{data?.completed}</span>
-</Link>
-
+        <Link
+          to={"/completed"}
+          className="flex items-center justify-between hover:text-white hover:bg-green-500 p-2 rounded-lg transition-transform duration-150 ease-in-out active:scale-105"
+        >
+          <div className="flex items-center gap-2">
+            <MdTaskAlt className="text-xl" />
+            <span>Completed</span>
+          </div>
+          <span>{data?.completed}</span>
+        </Link>
       </div>
     </div>
   );
