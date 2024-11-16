@@ -19,8 +19,8 @@ import { apiGetUser } from "../Shared/Services/authentication/userapi/apiuser";
 
 export default function Tasks() {
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
-  const { userdetails,setboolval } = useAuth();
-  const[bool,setbool]=useState();
+  const { userdetails, setboolval } = useAuth();
+  const [bool, setbool] = useState();
 
   const [taskTitle, setTaskTitle] = useState("");
   const [assignedUser, setAssignedUser] = useState("");
@@ -39,7 +39,7 @@ export default function Tasks() {
     setData(res);
   };
 
-  console.log("data",data)
+  console.log("data", data);
 
   // Fetch users for dropdown
   const apigetuserfun = async () => {
@@ -50,12 +50,18 @@ export default function Tasks() {
   useEffect(() => {
     apigettaskfun();
     apigetuserfun();
-    console.log("sdfsd")
+    console.log("sdfsd");
   }, [bool]);
 
   // Handle task form submission
   const handleSubmit = async () => {
-    if (taskTitle && assignedUser && assignedUserName && taskStage && taskDate) {
+    if (
+      taskTitle &&
+      assignedUser &&
+      assignedUserName &&
+      taskStage &&
+      taskDate
+    ) {
       const taskData = {
         taskTitle,
         assignedUser,
@@ -72,13 +78,11 @@ export default function Tasks() {
 
       // Option 2: Component refresh (uncomment if you prefer this approach)
       apigettaskfun(); // Refresh component data
-      setboolval()
-
+      setboolval();
     } else {
       toast("All fields are required.");
     }
   };
-
 
   // const submit = async (taskdata, index, data) => {
   //   if (data != "") {
@@ -112,6 +116,7 @@ export default function Tasks() {
             setAssignedUser("");
             setTaskTitle("");
             setTaskDate("");
+            setAssignedUserName("");
             onOpen();
           }}
           color="primary"
@@ -154,16 +159,15 @@ export default function Tasks() {
                 readOnly // Make input read-only since it's auto-filled
                 variant="bordered"
               />
-             <Input
-  value={taskDate}
-  onChange={(e) => setTaskDate(e.target.value)}
-  label="Task Date"
-  type="date"
-  placeholder="Select task date"
-  variant="bordered"
-  min={new Date().toISOString().split('T')[0]} // Minimum date is today
-/>
-
+              <Input
+                value={taskDate}
+                onChange={(e) => setTaskDate(e.target.value)}
+                label="Task Date"
+                type="date"
+                placeholder="Select task date"
+                variant="bordered"
+                min={new Date().toISOString().split("T")[0]} // Minimum date is today
+              />
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="flat" onPress={onClose}>
@@ -176,7 +180,15 @@ export default function Tasks() {
           </ModalContent>
         </Modal>
       </div>
-      {data.length > 0 && <BoardView tasks={data} a={apigettaskfun} bool={bool} data={data} setData={setData} />}
+      {data.length > 0 && (
+        <BoardView
+          tasks={data}
+          a={apigettaskfun}
+          bool={bool}
+          data={data}
+          setData={setData}
+        />
+      )}
     </div>
   );
 }

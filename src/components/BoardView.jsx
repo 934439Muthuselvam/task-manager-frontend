@@ -69,7 +69,7 @@ const BoardView = ({ tasks: initialTasks, a ,bool}) => {
           </div>
 
           {/* Displaying Name and Email */}
-          <div className="mt-3 text-white text-sm flex gap-2">
+          <div className="mt-3 text-white  font-semibold text-sm flex gap-2">
             <div className="font-medium">Email:</div>
             <div className="flex gap-1">
               {task?.assignedUser?.map((a, index) => (
@@ -81,14 +81,14 @@ const BoardView = ({ tasks: initialTasks, a ,bool}) => {
           </div>
 
           {/* Task Date */}
-          <div className="mt-2 text-white text-sm">
+          <div className="mt-2 text-white font-semibold text-sm">
             {formatDate(task?.taskDate)}
           </div>
 
           {/* Conditional rendering based on user role (Admin vs Regular User) */}
           {userdetails()?.name=="admin"?(
             <div>
-            <div className="mt-4">
+            <div className="mt-4 font-semibold">
             <label
               htmlFor={`taskStage-${index}`}
               className="text-sm text-white"
@@ -97,7 +97,7 @@ const BoardView = ({ tasks: initialTasks, a ,bool}) => {
             </label>
             <div>{task?.taskStage}</div>
           </div>
-            <div className={`${task?.taskinfo==""?"hidden":"block"} w-full flex justify-between`}>
+            <div className={`${task?.taskinfo==""?"hidden":"block"} w-full  font-semibold flex justify-between`}>
             <h4 className="line-clamp-1 text-white font-semibold text-base">
               Task info: {task?.taskinfo}
             </h4>
@@ -106,6 +106,7 @@ const BoardView = ({ tasks: initialTasks, a ,bool}) => {
           ) : (
 
             <div className="mt-4">
+               
               {/* Task Stage Selector */}
               <div className="mb-3">
                 <label

@@ -34,22 +34,22 @@ export default function SomeProblem() {
   return (
     <div>
       {data.length > 0 && (
-        <div className="w-full py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 2xl:gap-10">
+        <div className="w-full py-4 grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 gap-4 2xl:gap-10">
           {data.map((task, index) => (
             <div
               key={index}
-              className="w-full h-fit bg-red-400 shadow-md p-4 rounded"
+              className="w-full h-fit bg-red-500 shadow-md p-4 rounded"
             >
-              <div className="font-bold w-full flex gap-1 ">
+              <div className="font-bold text-white w-full flex gap-1 ">
               <div>Task Titile :</div>
-                <h4  className="line-clamp-1 text-black font-bold">
+                <h4  className="line-clamp-1 text-white font-bold">
                   {task?.taskTitle}
                 </h4>
               </div>
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-white  font-semibold ">
                 {date(task?.taskDate)}
               </span>
-              <div className="mt-2 text-gray-700 text-sm flex gap-1">
+              <div className="mt-2 text-white   text-sm font-semibold flex gap-1">
                 <div>Email : </div>
                 <div className=" flex gap-1">
                   {task?.assignedUser?.map((a, index) => (
@@ -58,24 +58,24 @@ export default function SomeProblem() {
                 </div>
               </div>
 
-              <div className="mt-4">
+              <div className="mt-4  text-white font-semibold">
                 <label
                   htmlFor={`taskStage-${index}`}
-                  className="text-sm text-gray-800"
+                  className="text-sm "
                 >
                   Task Stage:
                 </label>
                 <div>{task?.taskStage}</div>
               </div>
 
-              <div className={`${task?.taskinfo==""?"hidden":"block"} w-full flex justify-between`}>
-            <h4 className="line-clamp-1 text-black font-semibold text-base">
+              <div className={`${task?.taskinfo==""?"hidden":"block"} w-full text-white font-semibold flex justify-between`}>
+            <h4 className="line-clamp-1  font-semibold text-base">
               Task info: {task?.taskinfo}
             </h4>
           </div>
 
               <div
-                className={`mt-2 text-gray-700 text-sm flex gap-1 ${
+                className={`mt-2  text-sm flex gap-1 ${
                   task?.taskStage == "Complete" ? "block" : "hidden"
                 }`}
               >

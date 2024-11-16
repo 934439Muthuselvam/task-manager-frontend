@@ -59,10 +59,10 @@ export default function AssignedTask() {
                   </h4>
                 </div>
                 {/* Task Date */}
-                <span className="text-sm text-white">{formatDate(task?.taskDate)}</span>
+                <span className="text-sm font-semibold text-white">{formatDate(task?.taskDate)}</span>
 
                 {/* Assigned Users */}
-                <div className="mt-2 text-white text-sm flex gap-1">
+                <div className="mt-2 text-white font-semibold text-sm flex gap-1">
                   <div className="text-white">Email:</div>
                   <div className="flex gap-1">
                     {task?.assignedUser?.map((a, index) => (
@@ -74,7 +74,7 @@ export default function AssignedTask() {
                 </div>
 
                 {/* Task Stage */}
-                <div className="mt-4 mb-5">
+                <div className="mt-4 font-semibold mb-5">
                   <label htmlFor={`taskStage-${index}`} className="text-sm text-white">
                     Task Stage:
                   </label>

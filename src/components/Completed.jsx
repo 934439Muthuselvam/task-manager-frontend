@@ -35,14 +35,18 @@ export default function Completed() {
     return date.toISOString().split("T")[0];
   };
 
-  const handleVerify=(a)=>{
+  const handleVerify=async(task)=>{
     alert("Admin verified")
+    const updatedTask = { ...task, taskstatus: "Admin Verified" };
+    const res = await apiupdatetask({ taskdata:updatedTask });
+    // apigettaskfun()
+    // setboolval()
   }
 
   // Handle verify action (admin verifies the task)
   
   const handleDeny = async(task) => {
-    const updatedTask = { ...task, taskStage: "In Progress" };
+    const updatedTask = { ...task, taskStage: "In Progress",taskstatus:""  };
     const res = await apiupdatetask({ taskdata:updatedTask });
     // Your deny logic goes here
     console.log("Denied:", task);
@@ -64,10 +68,10 @@ export default function Completed() {
                 <h4 className="line-clamp-1 text-white font-bold">{task?.taskTitle}</h4>
               </div>
 
-              <span className="text-sm text-white">{date(task?.taskDate)}</span>
+              <span className="text-sm font-semibold text-white">{date(task?.taskDate)}</span>
 
               {/* Assigned Users */}
-              <div className="mt-2 text-white text-sm flex gap-1">
+              <div className="mt-2 text-white text-sm font-semibold flex gap-1">
                 <div>Email: </div>
                 <div className="flex gap-1">
                   {task?.assignedUser?.map((a, index) => (
@@ -78,15 +82,20 @@ export default function Completed() {
 
               {/* Task Stage */}
               <div className="mt-4">
-                <label htmlFor={`taskStage-${index}`} className="text-sm text-white">
-                  Task Stage:
+                <label htmlFor={`taskStage-${index}`} className="text-sm font-semibold text-white">
+                  Task Stage: {task?.taskStage}
                 </label>
-                <div className="text-white font-semibold">{task?.taskStage}</div>
+              </div>
+
+              <div className={`mt-4 `}>
+                <label htmlFor={`taskStage-${index}`} className="font-semibold text-sm text-white">
+                  Task Status: {task?.taskstatus}
+                </label>
               </div>
 
               {/* Time Section (only shown if Task is Complete) */}
               <div
-                className={`mt-2 text-white text-sm flex gap-1 ${task?.taskStage === "Complete" ? "block" : "hidden"}`}
+                className={`mt-2 text-white font-semibold text-sm flex gap-1 ${task?.taskStage === "Complete" ? "block" : "hidden"}`}
               >
                 <div>Time:</div>
                 <div className="flex gap-1">{DateTimeComponent(task?.updatedAt)}</div>
