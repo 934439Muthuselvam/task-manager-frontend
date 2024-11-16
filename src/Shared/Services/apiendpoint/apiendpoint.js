@@ -1,3 +1,3 @@
 export default function apiurl(){
-    return 'http://localhost:7000';
+    return 'https://task-manager-backend-pxdomhez6-muthuselvam123s-projects.vercel.app';
 }
