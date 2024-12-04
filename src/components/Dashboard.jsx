@@ -45,14 +45,6 @@ export default function Dashboard() {
 
 
      
-        {
-          _id: "2",
-          label: "BLOCKED ",
-          //   total: totals["completed"] || 0,
-          icon: <div className='w-10 h-10 rounded-full bg-red-500 flex justify-center items-center'>{data?.problem}</div>,
-          bg: "bg-[#f59e0b]",
-        },
-
 
         {
           _id: "4",
@@ -64,6 +56,14 @@ export default function Dashboard() {
 
       
       
+        {
+          _id: "2",
+          label: "BLOCKED ",
+          //   total: totals["completed"] || 0,
+          icon: <div className='w-10 h-10 rounded-full bg-red-500 flex justify-center items-center'>{data?.problem}</div>,
+          bg: "bg-[#f59e0b]",
+        },
+
      
 
       
