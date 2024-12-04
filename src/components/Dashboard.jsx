@@ -33,7 +33,13 @@ export default function Dashboard() {
           bg: "bg-[#1d4ed8]",
         },
 
-       
+        {
+          _id: "2",
+          label: "BLOCKED ",
+          //   total: totals["completed"] || 0,
+          icon: <div className='w-10 h-10 rounded-full bg-red-500 flex justify-center items-center'>{data?.problem}</div>,
+          bg: "bg-[#f59e0b]",
+        },
 
            {
           _id: "3",
@@ -43,9 +49,6 @@ export default function Dashboard() {
           bg: "bg-[#f59e0b]",
         },
 
-
-     
-
         {
           _id: "4",
           label: "COMPLTED TASK",
@@ -53,17 +56,7 @@ export default function Dashboard() {
           icon: <div className='w-10 h-10 rounded-full bg-green-500 flex justify-center items-center'>{data?.completed}</div>,
           bg: "bg-[#0f766e]",
         },
-
       
-      
-        {
-          _id: "2",
-          label: "BLOCKED ",
-          //   total: totals["completed"] || 0,
-          icon: <div className='w-10 h-10 rounded-full bg-red-500 flex justify-center items-center'>{data?.problem}</div>,
-          bg: "bg-[#f59e0b]",
-        },
-
      
 
       
