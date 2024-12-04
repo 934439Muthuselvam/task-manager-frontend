@@ -33,13 +33,7 @@ export default function Dashboard() {
           bg: "bg-[#1d4ed8]",
         },
 
-        {
-          _id: "2",
-          label: "SOME PROBLEM ",
-          //   total: totals["completed"] || 0,
-          icon: <div className='w-10 h-10 rounded-full bg-red-500 flex justify-center items-center'>{data?.problem}</div>,
-          bg: "bg-[#f59e0b]",
-        },
+       
 
            {
           _id: "3",
@@ -60,6 +54,14 @@ export default function Dashboard() {
         //   total: totals["completed"] || 0,
           icon: <div className='w-10 h-10 rounded-full bg-green-500 flex justify-center items-center'>{data?.completed}</div>,
           bg: "bg-[#0f766e]",
+        },
+
+        {
+          _id: "2",
+          label: "BLOCKED ",
+          //   total: totals["completed"] || 0,
+          icon: <div className='w-10 h-10 rounded-full bg-red-500 flex justify-center items-center'>{data?.problem}</div>,
+          bg: "bg-[#f59e0b]",
         },
       
      
@@ -97,7 +99,7 @@ export default function Dashboard() {
       };
       return (
         <div classNamee='h-full py-4'>
-          <div className='grid grid-cols-1 font-bold md:grid-cols-5 gap-5'>
+          <div className='grid lg:grid-cols-1 gap-5 xl:grid-cols-5'>
             {stats.map(({ icon, bg, label, total }, index) => (
               <Card key={index} icon={icon} bg={bg} label={label} count={total} />
             ))}

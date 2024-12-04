@@ -131,7 +131,7 @@ export default function Tasks() {
           isKeyboardDismissDisabled={true}
         >
           <ModalContent>
-            <ModalHeader className="flex flex-col gap-1">Add Task</ModalHeader>
+            <ModalHeader className="flex flex-col  gap-1">Add Task</ModalHeader>
             <ModalBody>
               <Input
                 value={taskTitle}

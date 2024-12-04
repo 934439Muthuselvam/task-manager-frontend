@@ -19,7 +19,7 @@ function Layout() {
   
     return (
       <div className='w-full h-screen flex flex-col md:flex-row bg-[#f3f4f6]'>
-      <div className='w-1/5 h-screen bg-white sticky top-0 hidden md:block'>
+      <div className='2xl:w-1/5 h-screen bg-white sticky top-0 hidden md:block'>
         <Sidebar/>
       </div>
       <div className='flex-1 overflow-y-auto'>

@@ -26,14 +26,14 @@ export default function Sidebar() {
     apigettaskfun();
   }, [boolval]);
   return (
-    <div className="w-full  h-full flex flex-col gap-6 p-5">
+    <div className="w-full  h-full  flex-col  gap-6 p-5 lg:flex hidden">
       <h1 className="flex gap-1 items-center">
         <span className="text-2xl font-bold text-blue-600">Task</span>
         <span className="text-2xl font-bold text-red-400">Assigner</span>
       </h1>
 
-      <div className="flex-1 flex flex-col gap-y-5 text-base py-8 ">
-        <Link
+      <div className="flex-1 flex flex-col gap-y-5   text-base py-8 ">
+      <Link
           to={"/dashboard"}
           className="flex justify-normal gap-2  hover:text-white hover:bg-blue-700 p-2 rounded-lg"
         >

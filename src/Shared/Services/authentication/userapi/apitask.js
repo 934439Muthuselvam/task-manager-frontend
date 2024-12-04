@@ -21,5 +21,5 @@ export const apideletetask=async(datas)=>{
     const  res=await axios.post(`${apiurl()}/authtask/apideletetask`,{_id:datas},{headers:{}})
     return res.data
 
-    
+     
 }
