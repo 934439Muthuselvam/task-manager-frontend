@@ -4,7 +4,7 @@ import { apiGettask, apiupdatetask } from "../Shared/Services/authentication/use
 import moment from "moment";
 import useAuth from "../Shared/hooks/useAuth";
 
-export default function Completed() {
+export default function AdminReview() {
   const [data, setData] = useState([]);
   const { userdetails } = useAuth();
   const { setboolval } = useAuth();
@@ -19,7 +19,7 @@ export default function Completed() {
   const apigettaskfun = async () => {
     const res = await apiGettask({
       filterData: "Complete",
-      taskstatus: "Admin Verified",
+      taskstatus: "",
       userdata: userdetails()?.email,
     });
     setData(res);
@@ -39,7 +39,7 @@ export default function Completed() {
   // Handle verify action (admin verifies the task)
   const handleVerify = async (task) => {
     try {
-      const updatedTask = { ...task, taskstatus: "Admin Verified" };
+      const updatedTask = { ...task,taskstatus: "Admin Verified" };
       await apiupdatetask({ taskdata: updatedTask });
       toast.success("Task successfully verified!");
       apigettaskfun();
@@ -69,14 +69,15 @@ export default function Completed() {
           {data.map((task, index) => (
             <div
               key={index}
-              className="w-full h-fit bg-green-500 shadow-lg hover:shadow-2xl p-4 rounded-lg transform transition-all duration-300 ease-in-out hover:scale-105"
+              className="w-full h-fit bg-amber-500 shadow-lg hover:shadow-2xl p-4 rounded-lg transform transition-all duration-300 ease-in-out hover:scale-105"
             >
-              <div className="font-bold w-full flex gap-1 text-white">
-                <div>Task Title:</div>
-                <h4 className="line-clamp-1 text-white font-bold">{task?.taskTitle}</h4>
-              </div>
+               <div className="w-full flex justify-between">
+                  <h4 className="text-white font-semibold text-xl break-words">
+                    Task Title : {task?.taskTitle}
+                  </h4>
+                </div>
 
-              <span className="text-sm font-semibold text-white">{date(task?.taskDate)}</span>
+              {/* <span className="text-sm font-semibold text-white">{date(task?.taskDate)}</span> */}
 
               {/* Assigned Users */}
               <div className="mt-2 text-white text-sm font-semibold flex gap-1">
@@ -89,11 +90,11 @@ export default function Completed() {
               </div>
 
               {/* Task Stage */}
-              <div className="mt-4">
+              {/* <div className="mt-4">
                 <label htmlFor={`taskStage-${index}`} className="text-sm font-semibold text-white">
                   Task Stage: {task?.taskStage}
                 </label>
-              </div>
+              </div> */}
 
               <div className={`mt-4 `}>
                 <label htmlFor={`taskStage-${index}`} className="font-semibold text-sm text-white">
@@ -129,9 +130,37 @@ export default function Completed() {
                   </div>
                 )}
 
-             
+
+              {/* Buttons for Admin Verify and Deny (Visible only to admin) */}
+              {userdetails()?.role === "admin" && (
+                <div className="mt-4 flex gap-4 justify-between">
+                  <button
+                    className="w-full bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transform transition-all duration-300 ease-in-out hover:scale-105"
+                    onClick={() => handleVerify(task)}
+                  >
+                    Admin Verify
+                  </button>
+                  <button
+                    className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transform transition-all duration-300 ease-in-out hover:scale-105"
+                    onClick={() => handleDeny(task)}
+                  >
+                    Deny
+                  </button>
+                </div>
+              )}
+
+              {/* Show if the task is Admin Verified */}
+              {task.adminVerified && (
+                <div className="mt-4 text-white font-bold text-xl">Admin Verified</div>
+              )}
+
+              
             </div>
+
+            
           ))}
+
+          
         </div>
       )}
     </div>

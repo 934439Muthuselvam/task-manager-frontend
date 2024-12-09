@@ -1,23 +1,6 @@
 import React, { useEffect, useState } from "react";
-import BoardView from "./BoardView";
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure,
-} from "@nextui-org/modal";
-import { Button, Input, Select, SelectItem } from "@nextui-org/react";
-import { FaPlus } from "react-icons/fa";
-import axios from "axios"; // Import axios for API calls
-import toast from "react-hot-toast";
-import {
-  apiAddtask,
-  apiGettask,
-} from "../Shared/Services/authentication/userapi/apitask";
+import { apiGettask } from "../Shared/Services/authentication/userapi/apitask";
 import useAuth from "../Shared/hooks/useAuth";
-import { apiGetUser } from "../Shared/Services/authentication/userapi/apiuser";
 
 export default function AssignedTask() {
   const [data, setData] = useState([]);
@@ -48,43 +31,46 @@ export default function AssignedTask() {
           {data.map((task, index) => (
             <div
               key={index}
-              className="w-full bg-pink-500 shadow-lg hover:shadow-xl rounded-lg overflow-hidden transform transition-all duration-300 ease-in-out hover:scale-105"
+              className="w-full bg-pink-500 shadow-lg hover:shadow-xl rounded-lg transform transition-all duration-300 ease-in-out hover:scale-105"
             >
               <div className="p-4">
                 {/* Task Title */}
-                <div className="flex items-center gap-2 font-bold text-lg text-white">
-                  <div className="text-white">Task Title:</div>
-                  <h4 className="text-white font-semibold line-clamp-1">
-                    {task?.taskTitle}
+
+                <div className="w-full flex justify-between">
+                  <h4 className="text-white font-semibold text-xl break-words">
+                    Task Title : {task?.taskTitle}
                   </h4>
                 </div>
+
                 {/* Task Date */}
-                <span className="text-sm font-semibold text-white">{formatDate(task?.taskDate)}</span>
+                <span className="mt:2 text-sm font-semibold text-white">
+                 Date : {formatDate(task?.taskDate)}
+                </span>
 
                 {/* Assigned Users */}
-                <div className="mt-2 text-white font-semibold text-sm flex gap-1">
-                  <div className="text-white">Email:</div>
+                <div className="mt-2  text-white font-semibold text-sm flex gap-1">
+                  <div>Email:</div>
                   <div className="flex gap-1">
                     {task?.assignedUser?.map((a, index) => (
                       <div key={index} className="text-white">
-                        {a + ""}
+                        {a}
                       </div>
                     ))}
                   </div>
                 </div>
 
                 {/* Task Stage */}
-                <div className="mt-4 font-semibold mb-5">
-                  <label htmlFor={`taskStage-${index}`} className="text-sm text-white">
-                    Task Stage:
+                <div className="mt-4   text-white font-semibold mb-5">
+                  <label htmlFor={`taskStage-${index}`} className="text-sm">
+                    Task Stage: {task?.taskStage}
                   </label>
-                  <div className="text-white font-semibold">{task?.taskStage}</div>
+                  {/* <div className="font-semibold">{task?.taskStage}</div> */}
                 </div>
 
                 {/* Task Info (conditionally displayed) */}
                 {task?.taskinfo && (
-                  <div className="w-full flex justify-between mt-4 text-sm text-white">
-                    <h4 className="line-clamp-1 font-semibold text-base">
+                  <div className="w-full mt-4 text-sm">
+                    <h4 className="font-semibold text-base break-words">
                       Task Info: {task?.taskinfo}
                     </h4>
                   </div>

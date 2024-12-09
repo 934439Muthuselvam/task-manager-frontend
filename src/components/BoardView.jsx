@@ -22,6 +22,13 @@ const BoardView = ({ tasks: initialTasks, a, bool }) => {
     setTasks(updatedTasks);
   };
 
+  const handleLinkChange = (index, newLink) => {
+    const updatedTasks = tasks.map((task, i) =>
+      i === index ? { ...task, link: newLink } : task
+    );
+    setTasks(updatedTasks);
+  };
+
   const submit = async (taskdata, index, data) => {
     if (data !== "") {
       try {
@@ -30,10 +37,12 @@ const BoardView = ({ tasks: initialTasks, a, bool }) => {
           toast.success("Task updated successfully!");
           a();
           const updatedTasks = tasks.map((task, i) =>
-            i === index ? { ...task, taskinfo: "" } : task
+            i === index
+              ? { ...task, taskinfo: "", link: "" } 
+              : task
           );
           setTasks(updatedTasks);
-          setboolval(!boolval);
+          setboolval(!boolval); 
         }
       } catch (error) {
         toast.error("Failed to update the task. Please try again!");
@@ -46,7 +55,8 @@ const BoardView = ({ tasks: initialTasks, a, bool }) => {
   useEffect(() => {
     const updatedTasks = initialTasks.map((task) => ({
       ...task,
-      taskinfo: "", // Replace taskinfo with an empty string
+      taskinfo: "", 
+      link: "", 
     }));
     setTasks(updatedTasks);
   }, [initialTasks]);
@@ -62,17 +72,17 @@ const BoardView = ({ tasks: initialTasks, a, bool }) => {
       {tasks?.map((task, index) => (
         <div
           key={index}
-          className="w-full h-fit bg-blue-700 shadow-lg p-6 rounded-lg transition-all duration-300 ease-in-out hover:scale-105"
+          className="w-full h-auto bg-blue-500 shadow-lg p-6 rounded-lg transition-all duration-300 ease-in-out hover:scale-105"
         >
           <div className="w-full flex justify-between">
-            <h4 className="line-clamp-1 text-white font-semibold text-xl">
+            <h4 className="text-white font-semibold text-xl break-words">
               Task Title : {task?.taskTitle}
             </h4>
           </div>
 
           <div className="mt-3 text-white font-semibold text-sm flex gap-2">
             <div className="font-medium">Email:</div>
-            <div className="flex gap-1">
+            <div className="flex flex-wrap gap-1">
               {task?.assignedUser?.map((email, index) => (
                 <div key={index} className="text-white">
                   {email}
@@ -99,9 +109,9 @@ const BoardView = ({ tasks: initialTasks, a, bool }) => {
               <div
                 className={`${
                   task?.taskinfo === "" ? "hidden" : "block"
-                } w-full font-semibold flex justify-between`}
+                } w-full font-semibold`}
               >
-                <h4 className="line-clamp-1 text-white font-semibold text-base">
+                <h4 className="text-white font-semibold text-base break-words">
                   Task info: {task?.taskinfo}
                 </h4>
               </div>
@@ -121,21 +131,19 @@ const BoardView = ({ tasks: initialTasks, a, bool }) => {
                   value={task.taskStage || ""}
                   onChange={(e) => handleStageChange(index, e.target.value)}
                   className={`mt-1 text-white w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm appearance-none 
-                                   ${
-                                     task.taskStage === "Complete"
-                                       ? "bg-green-500"
-                                       : task.taskStage === "In Progress"
-                                       ? "bg-yellow-500"
-                                       : task.taskStage === "Blocked"
-                                       ? "bg-red-500"
-                                       : "bg-pink-500"
-                                   }`}
+                                   ${task.taskStage === "Complete"
+                                     ? "bg-green-500"
+                                     : task.taskStage === "In Progress"
+                                     ? "bg-yellow-500"
+                                     : task.taskStage === "Blocked"
+                                     ? "bg-red-500"
+                                     : "bg-pink-500"}`}
                 >
                   <option value="Assigned" disabled>
                     Assigned
                   </option>
                   <option value="In Progress">In Progress</option>
-                  <option value="Complete">Complete</option>
+                  <option value="Complete">Submitted</option>
                   <option value="Blocked">Blocked</option>
                 </select>
               </div>
@@ -144,9 +152,19 @@ const BoardView = ({ tasks: initialTasks, a, bool }) => {
                 <Input
                   value={tasks[index]?.taskinfo}
                   onChange={(e) => handletextChange(index, e.target.value)}
-                  placeholder="Enter Task Info"
+                  placeholder="Remarks "
                   className="bg-white text-black rounded-xl w-full"
                   required
+                />
+              </div>
+
+              {/* Link Input Field */}
+              <div className="mt-4 text-white text-sm">
+                <Input
+                  value={tasks[index]?.link || ""}
+                  onChange={(e) => handleLinkChange(index, e.target.value)}
+                  placeholder="Add a link (optional)"
+                  className="bg-white text-black rounded-xl w-full"
                 />
               </div>
 

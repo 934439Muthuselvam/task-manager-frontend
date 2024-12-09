@@ -15,7 +15,7 @@ export default function Dashboard() {
     const stats = [
 
       {
-        _id: "5",
+        _id: "1",
         label: "Total TASK",
         //   total: totals["completed"] || 0,
         
@@ -25,7 +25,7 @@ export default function Dashboard() {
 
 
         {
-          _id: "1",
+          _id: "2",
           label: "ASSIGNED TASK",
           //   total: totals["completed"] || 0,
           
@@ -34,14 +34,6 @@ export default function Dashboard() {
         },
 
         {
-          _id: "2",
-          label: "BLOCKED ",
-          //   total: totals["completed"] || 0,
-          icon: <div className='w-10 h-10 rounded-full bg-red-500 flex justify-center items-center'>{data?.problem}</div>,
-          bg: "bg-[#f59e0b]",
-        },
-
-           {
           _id: "3",
           label: "TASK IN PROGRESS ",
           //   total: totals["completed"] || 0,
@@ -49,14 +41,67 @@ export default function Dashboard() {
           bg: "bg-[#f59e0b]",
         },
 
+
         {
           _id: "4",
+          label: "BLOCKED ",
+          //   total: totals["completed"] || 0,
+          icon: <div className='w-10 h-10 rounded-full bg-red-500 flex justify-center items-center'>{data?.problem}</div>,
+          bg: "bg-[#f59e0b]",
+        },
+
+     
+        // className={`${
+        //   userdetails()?.name === "admin" ? "flex" : "hidden"
+        //                  } justify-normal gap-2 hover:text-white hover:bg-orange-500 p-2 rounded-lg 
+        //                 active:scale-110 transition-transform duration-150 ease-in-out`}
+        // {
+        //   _id: "5",
+        //   label: "Review",
+        //   icon: (
+        //     <div className="w-10 h-10 rounded-full bg-amber-500 flex justify-center items-center">
+        //       {data?.review}
+        //     </div>
+        //   ),
+        //   bg: "bg-[#0f766e]",
+        //   visible: (() => {
+        //     const role = userdetails()?.name;
+        //     console.log("User Role for Review Card:", role); // Debug the role here
+        //     return role === "admin";
+        //   })(), // Ensure it's visible only to admins
+        // },
+
+
+        {
+          _id: "5",
+          label: "Review",
+        //   total: totals["completed"] || 0,
+          icon: <div className='w-10 h-10 rounded-full bg-amber-500 flex justify-center items-center'>{data?.review}</div>,
+          bg: "bg-[#0f766e]",
+        },
+
+        
+     
+        {
+          _id: "7",
+          label: "Submitted",
+        //   total: totals["completed"] || 0,
+          icon: <div className='w-10 h-10 rounded-full bg-amber-500 flex justify-center items-center'>{data?.submitted}</div>,
+          bg: "bg-[#0f766e]",
+        },
+
+      
+
+
+        {
+          _id: "6",
           label: "COMPLTED TASK",
         //   total: totals["completed"] || 0,
           icon: <div className='w-10 h-10 rounded-full bg-green-500 flex justify-center items-center'>{data?.completed}</div>,
           bg: "bg-[#0f766e]",
         },
-      
+
+       
      
 
       
@@ -93,9 +138,29 @@ export default function Dashboard() {
       return (
         <div classNamee='h-full py-4'>
           <div className='grid lg:grid-cols-1 gap-5 xl:grid-cols-5'>
-            {stats.map(({ icon, bg, label, total }, index) => (
-              <Card key={index} icon={icon} bg={bg} label={label} count={total} />
-            ))}
+          {
+stats
+.filter((item) => {
+  // Filter based on the visibility condition
+  if (item._id === "5") {
+    const role = userdetails()?.name;
+    console.log("User Role for Review Card:", role); // Debug the role
+    return role === "admin"; // Allow only admins to see the "Review" card
+  }
+  if (item._id === "7") {
+    const role = userdetails()?.name;
+    console.log("User Role for Completed Task Card:", role); // Debug the role
+    return role !== "admin"; // Hide the "COMPLETED TASK" card for admins
+  }
+  return true; // Allow all other cards to pass through
+})
+.map(({ icon, bg, label, total }, index) => (
+  <Card key={index} icon={icon} bg={bg} label={label} count={total} />
+))
+
+}
+
+
           </div>
           <div >
             {/* <Chart/> */}

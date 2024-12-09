@@ -40,39 +40,49 @@ export default function SomeProblem() {
               key={index}
               className="w-full h-fit bg-red-500 shadow-md p-4 rounded"
             >
-              <div className="font-bold text-white w-full flex gap-1 ">
-              <div>Task Titile :</div>
-                <h4  className="line-clamp-1 text-white font-bold">
-                  {task?.taskTitle}
-                </h4>
-              </div>
-              <span className="text-sm text-white  font-semibold ">
+               <div className="w-full flex justify-between">
+                  <h4 className="text-white font-semibold text-xl break-words">
+                    Task Title : {task?.taskTitle}
+                  </h4>
+                </div>
+
+              {/* <span className="text-sm text-white  font-semibold ">
                 {date(task?.taskDate)}
-              </span>
+              </span> */}
               <div className="mt-2 text-white   text-sm font-semibold flex gap-1">
                 <div>Email : </div>
                 <div className=" flex gap-1">
                   {task?.assignedUser?.map((a, index) => (
-                    <div key={index}>{a +  ""}</div>
+                    <div key={index}>{a + ""}</div>
                   ))}
                 </div>
               </div>
 
-              <div className="mt-4  text-white font-semibold">
-                <label
-                  htmlFor={`taskStage-${index}`}
-                  className="text-sm "
-                >
-                  Task Stage:
+              <div className="mt-2  text-white font-semibold">
+                <label htmlFor={`taskStage-${index}`} className="text-sm ">
+                  Task Stage : {task?.taskStage}
                 </label>
-                <div>{task?.taskStage}</div>
+                {/* <div>{task?.taskStage}</div> */}
               </div>
 
-              <div className={`${task?.taskinfo==""?"hidden":"block"} w-full text-white font-semibold flex justify-between`}>
-            <h4 className="line-clamp-1  font-semibold text-base">
-              Task info: {task?.taskinfo}
-            </h4>
-          </div>
+             <div className={`${task?.taskinfo === "" ? "hidden" : "block"} w-full mt-2 flex justify-between`}>
+                <h4 className=" text-white font-semibold text-sm break-words">Remarks : {task?.taskinfo}</h4>
+              </div>
+
+              {task?.link && (
+                  <div className="mt-2 text-sm text-white break-words">
+                    <strong>URL :</strong>{" "}
+                    <a
+                      href={task?.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline text-blue-700"
+                    >
+                      {task?.link}
+                    </a>
+                  </div>
+                )}
+
 
               <div
                 className={`mt-2  text-sm flex gap-1 ${
@@ -84,7 +94,6 @@ export default function SomeProblem() {
                   {DateTimeComponent(task?.updatedAt)}
                 </div>
               </div>
-
             </div>
           ))}
         </div>

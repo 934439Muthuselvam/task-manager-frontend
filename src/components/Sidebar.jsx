@@ -4,6 +4,7 @@ import {
   MdDashboard,
   MdOutlinePendingActions,
   MdReportProblem,
+  MdReviews,
   MdTaskAlt,
 } from "react-icons/md";
 import { RiTeamFill } from "react-icons/ri";
@@ -58,7 +59,7 @@ export default function Sidebar() {
 
         <Link
           to={"/tasks"}
-          className={`flex items-center justify-between hover:text-white hover:bg-blue-700 p-2 rounded-lg transition-transform duration-150 ease-in-out active:scale-105`}
+          className={`flex items-center justify-between hover:text-white hover:bg-blue-500 p-2 rounded-lg transition-transform duration-150 ease-in-out active:scale-105`}
         >
           {/* <div  className="mt-1">
             <FaTasks />
@@ -106,6 +107,49 @@ export default function Sidebar() {
           <span>{data?.problem}</span>
         </Link>
 
+        {/* <Link
+          to={"/user-submitted"}
+          className="flex items-center justify-between hover:text-white hover:bg-green-500 p-2 rounded-lg transition-transform duration-150 ease-in-out active:scale-105"
+        >
+          <div className="flex items-center gap-2">
+            <MdTaskAlt className="text-xl" />
+            <span>Submitted</span>
+          </div>
+          <span>{data?.submitted}</span>
+        </Link> */}
+
+  <Link
+          to={"/user-submitted"}
+          
+          className={`${
+            userdetails()?.name !== "admin" ? "flex" : "hidden"
+                           } justify-between gap-2 hover:text-white hover:bg-amber-500 p-2 rounded-lg 
+                          active:scale-110 transition-transform duration-150 ease-in-out`}
+                         >
+          <div className="flex items-center gap-2">
+            <MdReviews className="text-xl" />
+            <span>Submitted</span>
+          </div>
+          <span>{data?.submitted}</span>
+        </Link>
+
+        <Link
+          to={"/admin-review"}
+          
+          className={`${
+            userdetails()?.name === "admin" ? "flex" : "hidden"
+                           } justify-between gap-2 hover:text-white hover:bg-amber-500 p-2 rounded-lg 
+                          active:scale-110 transition-transform duration-150 ease-in-out`}
+                         >
+          <div className="flex items-center gap-2">
+            <MdReviews className="text-xl" />
+            <span>Review</span>
+          </div>
+          <span>{data?.review}</span>
+        </Link>
+
+        
+
         <Link
           to={"/completed"}
           className="flex items-center justify-between hover:text-white hover:bg-green-500 p-2 rounded-lg transition-transform duration-150 ease-in-out active:scale-105"
@@ -116,6 +160,8 @@ export default function Sidebar() {
           </div>
           <span>{data?.completed}</span>
         </Link>
+
+        
       </div>
     </div>
   );

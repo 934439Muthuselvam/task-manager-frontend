@@ -13,6 +13,9 @@ import Completed from '../components/Completed'
 import Inprogress from '../components/Inprogress'
 import AssignedTask from '../components/AssignedTask'
 import SomeProblem from '../components/SomeProblem'
+import AdminReview from '../components/AdminReview'
+import UserSubmitted from '../components/UserSubmitted'
+
 
 
 function Layout() {
@@ -50,6 +53,9 @@ export default function AppRouter() {
           <Route path='/inprogress' element={<Inprogress/>} />
           <Route path='/assigned-task' element={<AssignedTask/>} />
           <Route path='/some-problem' element={<SomeProblem/>} />
+          <Route path='/admin-review' element={<AdminReview/>} />
+          <Route path='/user-submitted' element={<UserSubmitted/>} />
+          
           
 
           

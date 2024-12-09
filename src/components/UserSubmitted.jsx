@@ -4,7 +4,7 @@ import { apiGettask, apiupdatetask } from "../Shared/Services/authentication/use
 import moment from "moment";
 import useAuth from "../Shared/hooks/useAuth";
 
-export default function Completed() {
+export default function UserSubmitted()  {
   const [data, setData] = useState([]);
   const { userdetails } = useAuth();
   const { setboolval } = useAuth();
@@ -19,7 +19,7 @@ export default function Completed() {
   const apigettaskfun = async () => {
     const res = await apiGettask({
       filterData: "Complete",
-      taskstatus: "Admin Verified",
+      taskstatus: "",
       userdata: userdetails()?.email,
     });
     setData(res);
@@ -36,31 +36,8 @@ export default function Completed() {
     return date.toISOString().split("T")[0];
   };
 
-  // Handle verify action (admin verifies the task)
-  const handleVerify = async (task) => {
-    try {
-      const updatedTask = { ...task, taskstatus: "Admin Verified" };
-      await apiupdatetask({ taskdata: updatedTask });
-      toast.success("Task successfully verified!");
-      apigettaskfun();
-      setboolval();
-    } catch (error) {
-      toast.error("Failed to verify the task.");
-    }
-  };
 
-  // Handle deny action
-  const handleDeny = async (task) => {
-    try {
-      const updatedTask = { ...task, taskStage: "In Progress", taskstatus: "" };
-      await apiupdatetask({ taskdata: updatedTask });
-      toast.success("Task successfully denied!");
-      apigettaskfun();
-      setboolval();
-    } catch (error) {
-      toast.error("Failed to deny the task.");
-    }
-  };
+ 
 
   return (
     <div>
@@ -69,14 +46,15 @@ export default function Completed() {
           {data.map((task, index) => (
             <div
               key={index}
-              className="w-full h-fit bg-green-500 shadow-lg hover:shadow-2xl p-4 rounded-lg transform transition-all duration-300 ease-in-out hover:scale-105"
+              className="w-full h-fit bg-amber-500 shadow-lg hover:shadow-2xl p-4 rounded-lg transform transition-all duration-300 ease-in-out hover:scale-105"
             >
-              <div className="font-bold w-full flex gap-1 text-white">
-                <div>Task Title:</div>
-                <h4 className="line-clamp-1 text-white font-bold">{task?.taskTitle}</h4>
-              </div>
+               <div className="w-full flex justify-between">
+                  <h4 className="text-white font-semibold text-xl break-words">
+                    Task Title : {task?.taskTitle}
+                  </h4>
+                </div>
 
-              <span className="text-sm font-semibold text-white">{date(task?.taskDate)}</span>
+              {/* <span className="text-sm font-semibold text-white">{date(task?.taskDate)}</span> */}
 
               {/* Assigned Users */}
               <div className="mt-2 text-white text-sm font-semibold flex gap-1">
@@ -89,17 +67,17 @@ export default function Completed() {
               </div>
 
               {/* Task Stage */}
-              <div className="mt-4">
+              {/* <div className="mt-4">
                 <label htmlFor={`taskStage-${index}`} className="text-sm font-semibold text-white">
                   Task Stage: {task?.taskStage}
                 </label>
-              </div>
+              </div> */}
 
-              <div className={`mt-4 `}>
+              {/* <div className={`mt-4 `}>
                 <label htmlFor={`taskStage-${index}`} className="font-semibold text-sm text-white">
                   Task Status: {task?.taskstatus}
                 </label>
-              </div>
+              </div> */}
 
               {/* Time Section (only shown if Task is Complete) */}
               <div
@@ -114,6 +92,7 @@ export default function Completed() {
                 <h4 className="mt-2 text-white font-semibold text-sm break-words">Remarks : {task?.taskinfo}</h4>
               </div>
 
+            
 
               {task?.link && (
                   <div className="mt-4 text-sm text-white break-words">
@@ -129,7 +108,7 @@ export default function Completed() {
                   </div>
                 )}
 
-             
+ 
             </div>
           ))}
         </div>
