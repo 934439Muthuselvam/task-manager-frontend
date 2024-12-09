@@ -74,7 +74,7 @@ export default function Dashboard() {
 
         {
           _id: "5",
-          label: "Review",
+          label: "REVIEW",
         //   total: totals["completed"] || 0,
           icon: <div className='w-10 h-10 rounded-full bg-amber-500 flex justify-center items-center'>{data?.review}</div>,
           bg: "bg-[#0f766e]",
@@ -84,7 +84,7 @@ export default function Dashboard() {
      
         {
           _id: "7",
-          label: "Submitted",
+          label: "SUBMITTED",
         //   total: totals["completed"] || 0,
           icon: <div className='w-10 h-10 rounded-full bg-amber-500 flex justify-center items-center'>{data?.submitted}</div>,
           bg: "bg-[#0f766e]",
