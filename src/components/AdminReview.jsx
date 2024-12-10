@@ -30,35 +30,39 @@ export default function AdminReview() {
     apigettaskfun();
   }, []);
 
-  // Format date
-  const date = (data) => {
-    const date = new Date(data);
-    return date.toISOString().split("T")[0];
-  };
-
   // Handle verify action (admin verifies the task)
   const handleVerify = async (task) => {
-    try {
-      const updatedTask = { ...task,taskstatus: "Admin Verified" };
-      await apiupdatetask({ taskdata: updatedTask });
-      toast.success("Task successfully verified!");
-      apigettaskfun();
-      setboolval();
-    } catch (error) {
-      toast.error("Failed to verify the task.");
+    const confirm = window.confirm("Are you sure you want to verify this task?");
+    if (confirm) {
+      try {
+        const updatedTask = { ...task, taskstatus: "Admin Verified" };
+        await apiupdatetask({ taskdata: updatedTask });
+        toast.success("Task successfully verified!");
+        apigettaskfun();
+        setboolval();
+      } catch (error) {
+        toast.error("Failed to verify the task.");
+      }
+    } else {
+      toast("Task verification cancelled.");
     }
   };
 
   // Handle deny action
   const handleDeny = async (task) => {
-    try {
-      const updatedTask = { ...task, taskStage: "In Progress", taskstatus: "" };
-      await apiupdatetask({ taskdata: updatedTask });
-      toast.success("Task successfully denied!");
-      apigettaskfun();
-      setboolval();
-    } catch (error) {
-      toast.error("Failed to deny the task.");
+    const confirm = window.confirm("Are you sure you want to deny this task?");
+    if (confirm) {
+      try {
+        const updatedTask = { ...task, taskStage: "In Progress", taskstatus: "" };
+        await apiupdatetask({ taskdata: updatedTask });
+        toast.success("Task successfully denied!");
+        apigettaskfun();
+        setboolval();
+      } catch (error) {
+        toast.error("Failed to deny the task.");
+      }
+    } else {
+      toast("Task denial cancelled.");
     }
   };
 
@@ -71,13 +75,11 @@ export default function AdminReview() {
               key={index}
               className="w-full h-fit bg-amber-500 shadow-lg hover:shadow-2xl p-4 rounded-lg transform transition-all duration-300 ease-in-out hover:scale-105"
             >
-               <div className="w-full flex justify-between">
-                  <h4 className="text-white font-semibold text-xl break-words">
-                    Task Title : {task?.taskTitle}
-                  </h4>
-                </div>
-
-              {/* <span className="text-sm font-semibold text-white">{date(task?.taskDate)}</span> */}
+              <div className="w-full flex justify-between">
+                <h4 className="text-white font-semibold text-xl break-words">
+                  Task Title : {task?.taskTitle}
+                </h4>
+              </div>
 
               {/* Assigned Users */}
               <div className="mt-2 text-white text-sm font-semibold flex gap-1">
@@ -89,14 +91,7 @@ export default function AdminReview() {
                 </div>
               </div>
 
-              {/* Task Stage */}
-              {/* <div className="mt-4">
-                <label htmlFor={`taskStage-${index}`} className="text-sm font-semibold text-white">
-                  Task Stage: {task?.taskStage}
-                </label>
-              </div> */}
-
-              <div className={`mt-4 `}>
+              <div className="mt-4">
                 <label htmlFor={`taskStage-${index}`} className="font-semibold text-sm text-white">
                   Task Status: {task?.taskstatus}
                 </label>
@@ -115,21 +110,19 @@ export default function AdminReview() {
                 <h4 className="mt-2 text-white font-semibold text-sm break-words">Remarks : {task?.taskinfo}</h4>
               </div>
 
-
               {task?.link && (
-                  <div className="mt-4 text-sm text-white break-words">
-                    <strong>URL :</strong>{" "}
-                    <a
-                      href={task?.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline text-blue-700"
-                    >
-                      {task?.link}
-                    </a>
-                  </div>
-                )}
-
+                <div className="mt-4 text-sm text-white break-words">
+                  <strong>URL :</strong>{" "}
+                  <a
+                    href={task?.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline text-blue-700"
+                  >
+                    {task?.link}
+                  </a>
+                </div>
+              )}
 
               {/* Buttons for Admin Verify and Deny (Visible only to admin) */}
               {userdetails()?.role === "admin" && (
@@ -148,19 +141,8 @@ export default function AdminReview() {
                   </button>
                 </div>
               )}
-
-              {/* Show if the task is Admin Verified */}
-              {task.adminVerified && (
-                <div className="mt-4 text-white font-bold text-xl">Admin Verified</div>
-              )}
-
-              
             </div>
-
-            
           ))}
-
-          
         </div>
       )}
     </div>

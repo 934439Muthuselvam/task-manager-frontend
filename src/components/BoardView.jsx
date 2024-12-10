@@ -80,6 +80,8 @@ const BoardView = ({ tasks: initialTasks, a, bool }) => {
             </h4>
           </div>
 
+          
+
           <div className="mt-3 text-white font-semibold text-sm flex gap-2">
             <div className="font-medium">Email:</div>
             <div className="flex flex-wrap gap-1">
@@ -94,6 +96,15 @@ const BoardView = ({ tasks: initialTasks, a, bool }) => {
           <div className="mt-2 text-white font-semibold text-sm">
             {formatDate(task?.taskDate)}
           </div>
+
+          <div className="mt-4">
+  <label htmlFor={`taskStage-${index}`} className="font-semibold text-sm text-white">
+    Task Status: {task?.taskstatus || "N/A"}
+  </label>
+</div>
+
+
+
 
           {userdetails()?.name === "admin" ? (
             <div>
